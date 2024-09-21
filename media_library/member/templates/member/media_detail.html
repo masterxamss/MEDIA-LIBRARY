@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if book_detail%}
+        {{ book_detail.title }}
+    {% elif cd_detail %}
+        {{ cd_detail.title }}
+    {% elif dvd_detail %}
+        {{ dvd_detail.title }}
+    {% elif game_detail %}
+        {{ game_detail.title }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if book_detail %}
+        {% with template="member/includes/book_detail.html" %}
+            {% include ""|add:template %}
+        {% endwith %}
+    {% elif cd_detail %}
+        {% with template="member/includes/cd_detail.html" %}
+            {% include ""|add:template %}
+        {% endwith %}
+    {% elif dvd_detail %}
+        {% with template="member/includes/dvd_detail.html" %}
+            {% include ""|add:template %}
+        {% endwith %}
+    {% elif game_detail %}
+        {% with template="member/includes/board_game_detail.html" %}
+            {% include ""|add:template %}
+        {% endwith %}
+    {% endif %}
+{% endblock %}
+
+
+
+

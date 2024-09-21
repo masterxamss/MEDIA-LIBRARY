@@ -32,6 +32,8 @@ class Member(models.Model):
 class BoardGame(models.Model):
     name = models.CharField(max_length=200, null=False)
     creator = models.CharField(max_length=200, null=False)
+    slug = models.SlugField(default="", null=False, blank=True, db_index=True)
+    image = models.ImageField(upload_to="images", null=False, blank=True)
 
     def __str__(self):
         return self.name
@@ -58,7 +60,7 @@ class Book(Media):
     language = models.CharField(max_length=50, null=False)
     release_date = models.DateField(null=False)
     publisher = models.CharField(max_length=150, null=False)
-    image = models.ImageField(upload_to="images")
+    image = models.ImageField(upload_to="images", null=False, blank=True)
 
 
     class Meta:
@@ -82,6 +84,7 @@ class Dvd(Media):
     )
     category = models.CharField(max_length=150, default="", null=False, blank=True)
     description = models.TextField(max_length=500, null=True, default="", blank=True)
+    image = models.ImageField(upload_to="images", null=False, blank=True)
 
 
     def __str__(self):
@@ -96,6 +99,7 @@ class Cd(Media):
     album = models.CharField(max_length=255, default="", null=False, blank=True)
     year = models.IntegerField(default=0, null=False, blank=True)
     genre = models.CharField(max_length=150, default="", null=False, blank=True)
+    image = models.ImageField(upload_to="images", null=False, blank=True)
 
 
     def __str__(self):

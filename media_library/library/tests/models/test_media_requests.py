@@ -27,7 +27,12 @@ class TestMediaRequests:
         # Create a book
         book = Book.objects.create(
             title="Alice in wonderland",
-            author="Lewis Carroll"
+            author="Lewis Carroll",
+            pages=200,
+            language="English",
+            release_date="2001-01-01",
+            publisher="Houghton Mifflin",
+            image=""       
         )
 
         # Create a media request
@@ -133,7 +138,12 @@ class TestMediaRequests:
 
         book = Book.objects.create(
             title="Alice in wonderland",
-            author="Lewis Carroll"
+            author="Lewis Carroll",
+            pages=200,
+            language="English",
+            release_date="2001-01-01",
+            publisher="Houghton Mifflin",
+            image="" 
         )
 
         # Creation of the media order with the return date in the past
@@ -160,7 +170,12 @@ class TestMediaRequests:
 
         book = Book.objects.create(
             title="Anna Karenina",
-            author="Liev Tolstói"
+            author="Liev Tolstói",
+            pages=200,
+            language="English",
+            release_date="2001-01-01",
+            publisher="Houghton Mifflin",
+            image="" 
         )
 
         # Creation of media order with future return date
@@ -186,7 +201,12 @@ class TestMediaRequests:
 
         book = Book.objects.create(
             title="The Prisoner of the Caucasus",
-            author="Liev Tolstói"
+            author="Liev Tolstói",
+            pages=200,
+            language="English",
+            release_date="2001-01-01",
+            publisher="Houghton Mifflin",
+            image="" 
         )
 
         media_request = MediaRequests.objects.create(
@@ -215,7 +235,12 @@ class TestMediaRequests:
 
         book = Book.objects.create(
             title="The Prisoner of the Caucasus",
-            author="Liev Tolstói"
+            author="Liev Tolstói",
+            pages=200,
+            language="English",
+            release_date="2001-01-01",
+            publisher="Houghton Mifflin",
+            image="" 
         )
 
         # Creation of media order with future return date
@@ -266,7 +291,12 @@ class TestMediaRequests:
 
         book = Book.objects.create(
             title="The Prisoner of the Caucasus",
-            author="Liev Tolstói"
+            author="Liev Tolstói",
+            pages=200,
+            language="English",
+            release_date="2001-01-01",
+            publisher="Houghton Mifflin",
+            image="" 
         )
 
         media_request = MediaRequests.objects.create(

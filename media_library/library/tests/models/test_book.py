@@ -10,7 +10,12 @@ class TestBook():
             title="Lord of the Rings",
             available=True,
             slug="lord-of-the-rings",
-            author="J. R. R. Tolkien"
+            author="J. R. R. Tolkien",
+            pages=1000,
+            language="English",
+            release_date="2001-01-01",
+            publisher="Houghton Mifflin",
+            image=""
         )
 
         # Test the attributes
@@ -18,6 +23,11 @@ class TestBook():
         assert book.available == True
         assert book.slug == "lord-of-the-rings"
         assert book.author == "J. R. R. Tolkien"
+        assert book.pages == 1000
+        assert book.language == "English"
+        assert book.release_date == "2001-01-01"
+        assert book.publisher == "Houghton Mifflin"
+        assert book.image == ""
 
 
     # Test the __str__() method
@@ -25,7 +35,14 @@ class TestBook():
     def test_str(self):
         book = Book.objects.create(
             title="Lord of the Rings",
-            author="J. R. R. Tolkien"
+            available=True,
+            slug="lord-of-the-rings",
+            author="J. R. R. Tolkien",
+            pages=1000,
+            language="English",
+            release_date="2001-01-01",
+            publisher="Houghton Mifflin",
+            image=""
         )
 
         assert str(book) == "Lord of the Rings - J. R. R. Tolkien"
