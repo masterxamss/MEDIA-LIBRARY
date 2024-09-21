@@ -1,0 +1,43 @@
+<section class="container">
+    <h1 class="text-center">{{ dvd_detail.title }}</h1>
+    <ul>
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-dark">
+                <strong>Directeur:</strong>
+                {{ dvd_detail.director }}
+            </li>
+            <li class="list-group-item list-group-item-dark">
+                <strong>Année:</strong>
+                {{ dvd_detail.year }}
+            </li>
+            <li class="list-group-item list-group-item-dark">
+                <strong>Rédacteur:</strong>
+                {{ dvd_detail.writer }}
+            </li>
+            <li class="list-group-item list-group-item-dark">
+                <strong>Note:</strong>
+                {{ dvd_detail.rating }}
+            </li>
+            <li class="list-group-item list-group-item-dark">
+                <strong>Categorie:</strong>
+                {{ dvd_detail.category }}
+            </li>
+            <li class="list-group-item list-group-item-dark">
+                <strong>Description:</strong>
+                {{ dvd_detail.description }}
+            </li>
+            {% if dvd_detail.available %}
+                <li class="list-group-item list-group-item-success">
+                    <strong>Disponible:</strong> Oui
+                </li>
+            {% else %}
+                <li class="list-group-item list-group-item-danger">
+                    <strong>Disponible:</strong> Non
+                </li>
+            {% endif %}
+        </ul>
+        <a href="{% url 'dvds' %}" class="btn btn-primary btn-lg" role="buttone">
+            Retourner
+        </a>
+    </ul>
+</section>

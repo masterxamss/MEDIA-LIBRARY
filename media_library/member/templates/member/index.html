@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Accueil
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron text-center">
+        <h1 class="display 4">Bienvenue a la médiathèque « Notre livre, notre média »</h1>
+        <p class="lead">Voir nos médias disponibles</p>
+        <hr class="my-4">
+        <h2 class="display-3"></h2>
+        <p>Utilisez les boutons pour choisir votre type de média</p>
+        <a href="{% url 'books' %}" class="btn btn-primary btn-lg" role="buttone">
+            Livres
+        </a>
+        <a href="{% url 'cds' %}" class="btn btn-primary btn-lg" role="buttone">
+            Cd's
+        </a>
+        <a href="{% url 'dvds' %}" class="btn btn-primary btn-lg" role="buttone">
+            Dvd's
+        </a>
+        <a href="{% url 'board_games' %}" class="btn btn-primary btn-lg" role="buttone">
+            Jeux de plateau
+        </a>
+    </div>
+{% endblock %}

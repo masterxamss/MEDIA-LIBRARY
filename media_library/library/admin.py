@@ -18,28 +18,29 @@ class MemberAdmin(admin.ModelAdmin):
 class BoardGameAdmin(admin.ModelAdmin):
     list_display = ['name', 'creator']
     search_fields = ['name', 'creator']
+    prepopulated_fields = {"slug": ("name",)}
 
 
 class BookAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
-    list_display = ['title', 'author']
+    list_display = ['title', 'author', 'language', 'release_date', 'publisher']
     search_fields = ['title', 'author']
 
 
 class CdAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
-    list_display = ['title', 'artist']
+    list_display = ['title', 'artist','album','year','genre']
     search_fields = ['title', 'artist']
 
 
 class DvdAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
-    list_display = ['title', 'director']
+    list_display = ['title', 'director', 'year', 'writer', 'rating', 'category', 'description']
     search_fields = ['title', 'director']
 
 
 class MediaRequestsAdmin(admin.ModelAdmin):
-    list_display = ['member', 'book', 'dvd', 'cd']
+    list_display = ['member', 'book', 'dvd', 'cd','date_requested', 'date_due', 'returned', 'date_returned']
     search_fields = ['member', 'book', 'dvd', 'cd']
 
 
