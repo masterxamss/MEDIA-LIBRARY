@@ -1,6 +1,5 @@
-<section class="container">
+<section class="d-flex flex-column justify-content-center">
     <h1 class="text-center">{{ book_detail.title }}</h1>
-    <ul>
         <ul class="list-group">
             <li class="list-group-item list-group-item-dark">
                 <strong>Auteur:</strong>
@@ -32,8 +31,7 @@
                 </li>
             {% endif %}
         </ul>
-        <a href="{% url 'books' %}" class="btn btn-primary btn-lg" role="buttone">
+        <a href="{% url 'books' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
             Retourner
         </a>
-    </ul>
 </section>

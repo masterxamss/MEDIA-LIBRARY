@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Dvd's
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Liste de Dvd's</h1>
+    <table class="table table-border table-striped ">
+        <thead class="thead-dark">
+            <tr>
+                <th>Titre</th>
+                <th>Categorie</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dvd in dvds %}
+                <tr>
+                    <td>
+                        <a href="{% url 'gest-dvd-detail' dvd.slug %}">
+                            {{ dvd.title }}
+                        </a>
+                    </td>
+                    <td>{{ dvd.category }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'home-library' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
+        Retourner
+    </a>
+{% endblock %}

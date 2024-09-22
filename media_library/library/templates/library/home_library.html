@@ -5,5 +5,26 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>Home Libary</h1>
+    <div class="jumbotron text-center">
+        <h1 class="display 4">Médiathèque « Notre livre, notre média »</h1>
+        <p class="lead">Système de gestion des médias</p>
+        <hr class="my-4">
+        <h2 class="display-3"></h2>
+        <p>Utilisez les boutons pour choisir le type de média</p>
+        <a href="{% url 'gest-books' %}" class="btn btn-primary btn-lg" role="buttone">
+            Livres
+        </a>
+        <a href="{% url 'gest-cds' %}" class="btn btn-primary btn-lg" role="buttone">
+            Cd's
+        </a>
+        <a href="{% url 'gest-dvds' %}" class="btn btn-primary btn-lg" role="buttone">
+            Dvd's
+        </a>
+        <a href="{% url 'gest-games' %}" class="btn btn-primary btn-lg" role="buttone">
+            Jeux de plateau
+        </a>
+        <a href="#" class="btn btn-primary btn-lg" role="buttone">
+            Créer un emprunt 
+        </a>
+    </div>
 {% endblock content %}

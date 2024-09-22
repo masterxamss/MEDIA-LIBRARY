@@ -2,8 +2,6 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-# Create your models here.
-
 # -----------------------------------------------------------
 # MODEL MEMBERS
 # -----------------------------------------------------------
@@ -32,7 +30,7 @@ class Member(models.Model):
 class BoardGame(models.Model):
     name = models.CharField(max_length=200, null=False)
     creator = models.CharField(max_length=200, null=False)
-    slug = models.SlugField(default="", null=False, blank=True, db_index=True)
+    slug = models.SlugField(default="", null=False, blank=True, db_index=True, unique=True)
     image = models.ImageField(upload_to="images", null=False, blank=True)
 
     def __str__(self):
@@ -45,7 +43,7 @@ class BoardGame(models.Model):
 class Media(models.Model):
     title = models.CharField(max_length=255, null=False)
     available = models.BooleanField(default=True)
-    slug = models.SlugField(default="", null=False, blank=True, db_index=True)
+    slug = models.SlugField(default="", null=False, blank=True, db_index=True, unique=True)
 
     class Meta:
         abstract = True  # Does not create its own table in the database.
