@@ -1,7 +1,6 @@
-<section class="container">
+<section class="d-flex flex-column justify-content-center">
     <h1 class="text-center">{{ cd_detail.title }}</h1>
-    <ul>
-        <ul class="list-group">
+        <ul class="list-group p-0">
             <li class="list-group-item list-group-item-dark">
                 <strong>Artist:</strong>
                 {{ cd_detail.artist }}
@@ -28,8 +27,7 @@
                 </li>
             {% endif %}
         </ul>
-        <a href="{% url 'cds' %}" class="btn btn-primary btn-lg" role="buttone">
+        <a href="{% url 'cds' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
             Retourner
         </a>
-    </ul>
 </section>

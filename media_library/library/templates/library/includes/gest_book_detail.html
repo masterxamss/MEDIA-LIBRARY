@@ -1,0 +1,45 @@
+<section class="d-flex flex-column justify-content-center w-75">
+  <h1 class="text-center">{{ book_detail.title }}</h1>
+  <ul class="list-group">
+    <li class="list-group-item list-group-item-dark">
+      <strong>Auteur:</strong>
+      {{ book_detail.author }}
+    </li>
+    <li class="list-group-item list-group-item-dark">
+      <strong>Pages:</strong>
+      {{ book_detail.pages }}
+    </li>
+    <li class="list-group-item list-group-item-dark">
+      <strong>Langue:</strong>
+      {{ book_detail.language }}
+    </li>
+    <li class="list-group-item list-group-item-dark">
+      <strong>Date sortie:</strong>
+      {{ book_detail.release_date }}
+    </li>
+    <li class="list-group-item list-group-item-dark">
+      <strong>Éditeur:</strong>
+      {{ book_detail.publisher }}
+    </li>
+    {% if book_detail.available %}
+    <li class="list-group-item list-group-item-success">
+      <strong>Disponible:</strong> Oui
+    </li>
+    {% else %}
+    <li class="list-group-item list-group-item-danger">
+      <strong>Disponible:</strong> Non
+    </li>
+    {% endif %}
+  </ul>
+  <div>
+    <a href="{% url 'book-delete' book_detail.slug %}" class="btn btn-danger btn-sm mt-1">Suprimer</a>
+    <a href="{% url 'book-update' book_detail.slug %}" class="btn btn-warning btn-sm mt-1">Editer</a>
+  </div>
+  <a
+    href="{% url 'gest-books' %}"
+    class="btn btn-primary btn-lg mt-1"
+    role="buttone"
+  >
+    Retourner
+  </a>
+</section>

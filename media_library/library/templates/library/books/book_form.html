@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'library/create_book.css' %}" />
+{% endblock %}
+
+{% block title %}
+    Nouveau livre
+{% endblock %}
+
+{% block content %}
+    <section class="book-form">
+        <h1 class="text-center">Créer un nouveau livre</h1>
+        {% if form.errors %}
+        <div id="alert">
+          <h2>L'enregistrement du livre a échoué</h2>
+          <p>Veuillez corriger les erreurs ci-dessous.</p>
+        </div>
+        {% endif %} 
+        <form method="POST" class="jumbotron">
+            {% csrf_token %}
+            {% for form_field in form %}
+                <div class="{% if form_field.errors %}invalid{% endif %}">
+                    {{ form_field.label_tag }}
+                    {{ form_field }}
+                    {{ form_field.errors }}
+                </div>
+            {% endfor %}
+            <button class="btn btn-success btn-block" type="submit">Enregistrer le livre</button>
+            <input class="btn btn-primary btn-block" type="reset" value="Reset">
+        </form>
+        <a href="{% url 'gest-books' %}" class="btn btn-primary btn-lg mt-1" role="buttone">Retourner</a>
+    </section>
+{% endblock %}

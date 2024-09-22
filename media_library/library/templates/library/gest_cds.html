@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Cd's
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Liste de Cd's </h1>
+    <table class="table table-border table-striped ">
+        <thead class="thead-dark">
+            <tr>
+                <th>Titre</th>
+                <th>Artiste</th>
+                <th>Album</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cd in cds %}
+                <tr>
+                    <td>
+                        <a href="{% url 'gest-cd-detail' cd.slug %}">
+                            {{ cd.title }}
+                        </a>
+                    </td>
+                    <td>{{ cd.artist }}</td>
+                    <td>{{ cd.album }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'home-library' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
+        Retourner
+    </a>
+{% endblock %}

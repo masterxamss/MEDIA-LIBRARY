@@ -1,7 +1,6 @@
-<section class="container">
+<section class="d-flex flex-column justify-content-center">
     <h1 class="text-center">{{ dvd_detail.title }}</h1>
-    <ul>
-        <ul class="list-group">
+        <ul class="list-group p-0">
             <li class="list-group-item list-group-item-dark">
                 <strong>Directeur:</strong>
                 {{ dvd_detail.director }}
@@ -36,8 +35,7 @@
                 </li>
             {% endif %}
         </ul>
-        <a href="{% url 'dvds' %}" class="btn btn-primary btn-lg" role="buttone">
-            Retourner
-        </a>
-    </ul>
+    <a href="{% url 'dvds' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
+        Retourner
+    </a>
 </section>

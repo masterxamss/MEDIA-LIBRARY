@@ -1,6 +1,5 @@
-<section class="container">
-    <h1 class="text-center">{{ game_detail.title }}</h1>
-    <ul>
+<section class="d-flex flex-column justify-content-center">
+    <h1 class="text-center">{{ game_detail.name }}</h1>
         <ul class="list-group">
             <li class="list-group-item list-group-item-dark">
                 <strong>Nom:</strong>
@@ -11,8 +10,7 @@
                 {{ game_detail.creator }}
             </li>
         </ul>
-        <a href="{% url 'board_games' %}" class="btn btn-primary btn-lg" role="buttone">
+        <a href="{% url 'board_games' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
             Retourner
         </a>
-    </ul>
 </section>

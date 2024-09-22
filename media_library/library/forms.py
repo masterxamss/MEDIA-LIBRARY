@@ -1,5 +1,5 @@
 from django import forms
-from .models import Member, BoardGame, Book, Cd, Dvd, MediaRequests
+from . models import Member, BoardGame, Book, Cd, Dvd, MediaRequests
 
 # -----------------------------------------------------------
 # FORM MEMBERS
@@ -60,6 +60,10 @@ class MemberForm(forms.ModelForm):
             'city': forms.TextInput(attrs={'placeholder': 'Metz', 'class': 'form-control'})
         }
 
+# -----------------------------------------------------------
+# FORM BOARD GAMES
+# -----------------------------------------------------------
+
 
 class BoardGameForm(forms.ModelForm):
     class Meta:
@@ -85,17 +89,20 @@ class BoardGameForm(forms.ModelForm):
         }
 
 
+# -----------------------------------------------------------
+# FORM BOOK
+# -----------------------------------------------------------
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = '__all__'
+        exclude = ['slug', 'available']
         labels = {
             'title': 'Titre',
-            'available': 'Disponible',
             'author': 'Auteur',
             'pages': 'Pages',
             'language': 'Langue',
-            'realease_date': 'Date de sortie',
+            'release_date': 'Date de sortie',
             'publisher': 'Editeur'
 
         }
@@ -115,8 +122,9 @@ class BookForm(forms.ModelForm):
                 'required': 'Veuillez renseigner la langue',
                 'max_length': 'Limite de caractères dépassée'
             },
-            'realease_date': {
+            'release_date': {
                 'required': 'Veuillez renseigner la date de sortie',
+                'invalid': 'Veuillez entrer une date valide (format AAAA-MM-JJ)'
             },
             'publisher': {
                 'required': 'Veuillez renseigner l\'editeur',
@@ -125,15 +133,17 @@ class BookForm(forms.ModelForm):
         }
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Titre du livre', 'class': 'form-control'}),
-            'available': forms.CheckboxInput(attrs={'class': 'form-control'}),
             'author': forms.TextInput(attrs={'placeholder': 'Auteur du livre', 'class': 'form-control'}),
             'pages': forms.NumberInput(attrs={'placeholder': 'Nombre de pages', 'class': 'form-control'}),
             'language': forms.TextInput(attrs={'placeholder': 'Langue du livre', 'class': 'form-control'}),
-            'realease_date': forms.DateInput(attrs={'placeholder': 'Date de sortie', 'class': 'form-control'}),
+            'release_date': forms.DateInput(attrs={'placeholder': 'Date de sortie', 'class': 'form-control'}),
             'publisher': forms.TextInput(attrs={'placeholder': 'Editeur du livre', 'class': 'form-control'})
         }
 
 
+# -----------------------------------------------------------
+# FORM CD
+# -----------------------------------------------------------
 class CdForm(forms.ModelForm):
     class Meta:
         model = Cd
@@ -176,6 +186,9 @@ class CdForm(forms.ModelForm):
         }
 
 
+# -----------------------------------------------------------
+# FORM DVD
+# -----------------------------------------------------------
 class DvdForm(forms.ModelForm):
     class Meta:
         model = Dvd
@@ -230,6 +243,9 @@ class DvdForm(forms.ModelForm):
         }
 
 
+# -----------------------------------------------------------
+# FORM MEDIA REQUEST
+# -----------------------------------------------------------
 class MediaRequestsForm(forms.ModelForm):
     class Meta:
         model = MediaRequests
@@ -249,10 +265,25 @@ class MediaRequestsForm(forms.ModelForm):
             },
         }
         widgets = {
-            'member': forms.Select(attrs={'class': 'form-control'}),
-            'book': forms.ModelChoiceField(queryset=Book.objects.filter(available=True), widget=forms.Select(attrs={'class': 'form-control'})),
-            'dvd': forms.ModelChoiceField(queryset=Dvd.objects.filter(available=True), widget=forms.Select(attrs={'class': 'form-control'})),
-            'cd': forms.ModelChoiceField(queryset=Cd.objects.filter(available=True), widget=forms.Select(attrs={'class': 'form-control'})),
+            'member': forms.ModelChoiceField(
+                queryset=Member.objects.all(),
+                widget=forms.Select(attrs={'class': 'form-control'})),
+            'member': forms.ModelChoiceField(
+                queryset=Member.objects.all(),
+                widget=forms.Select(attrs={'class': 'form-control'}),
+                empty_label="Sélectionner un membre"),
+            'book': forms.ModelChoiceField(
+                queryset=Book.objects.filter(available=True),
+                widget=forms.Select(attrs={'class': 'form-control'}),
+                empty_label="Sélectionner un livre"),
+            'dvd': forms.ModelChoiceField(
+                queryset=Dvd.objects.filter(available=True),
+                widget=forms.Select(attrs={'class': 'form-control'}),
+                empty_label="Sélectionner un dvd"),
+            'cd': forms.ModelChoiceField(
+                queryset=Cd.objects.filter(available=True),
+                widget=forms.Select(attrs={'class': 'form-control'}),
+                empty_label="Sélectionner un cd"),
             'date_requested': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'date_due': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'returned': forms.CheckboxInput(attrs={'class': 'form-control', 'type': 'checkbox'}),

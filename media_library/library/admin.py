@@ -1,11 +1,17 @@
 from django.contrib import admin
 from .models import Member, BoardGame, Book, Cd, Dvd, MediaRequests
 
-# USERNAME : Admin
-# PASSWORD : 3#__45aPgG*89
+'''
+SUPERUSER
+USERNAME : Admin
+PASSWORD : 3#__45aPgG*89
+'''
 
-# Register your models here.
-
+'''
+SIMPLE USER
+USERNAME : Tiago
+PASSWORD : As_#1578a_20
+'''
 
 class MemberAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name', 'email',

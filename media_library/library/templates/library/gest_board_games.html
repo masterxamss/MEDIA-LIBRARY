@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Jeux de plateau 
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Liste de jeux de plateau </h1>
+    <table class="table table-border table-striped ">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Créateur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for board_game in board_games %}
+                <tr>
+                    <td>
+                        <a href="{% url 'gest-game-detail' board_game.slug %}">
+                            {{ board_game.name }}
+                        </a>
+                    </td>
+                    <td>{{ board_game.creator }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'home-library' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
+        Retourner
+    </a>
+{% endblock %}
