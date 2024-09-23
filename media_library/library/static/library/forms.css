@@ -22,8 +22,12 @@
     width: 100%;
   }
 
-  #id_available {
+  #id_available, #id_blocked{
     width: 20px;
+  }
+
+  #id_city{
+    margin-bottom: 1.5rem;
   }
 
   #id_image{

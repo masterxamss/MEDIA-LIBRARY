@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %} Membres {% endblock %} 
+{% block content %}
+<h1 class="text-center">Liste de membres</h1>
+<table class="table table-border table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Nom</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Bloqué</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    {% for member in members %}
+    <tr>
+      <td>
+        <a href="{% url 'member-detail' member.id %}">{{ member.last_name }} {{ member.first_name }}</a>
+      </td>
+      <td>{{ member.email }}</td>
+      <td>{{ member.phone }}</td>
+      {% if member.blocked %}
+      <td class="bg-danger">
+        Oui
+      </td>
+      {% else %}
+      <td class="bg-success">
+        Non
+      </td>
+      {% endif%}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div>
+  <a
+    href="{% url 'home-library' %}"
+    class="btn btn-primary btn-lg mt-1"
+    role="buttone"
+  >
+    Retourner
+  </a>
+  <a
+    href="{% url 'create-member'%}"
+    class="btn btn-primary btn-lg mt-1"
+    role="buttone"
+  >
+    Noveau membre
+  </a>
+</div>
+{% endblock %}
