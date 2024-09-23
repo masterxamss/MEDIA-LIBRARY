@@ -8,8 +8,8 @@ from django.views import View
 from django.views.generic import ListView, DeleteView, UpdateView, DetailView
 from django.views.generic.edit import CreateView
 
-from . models import Book, Cd, Dvd, BoardGame
-from . forms import BookForm
+from . models import Book, Cd, Dvd, BoardGame, Member
+from . forms import BookForm, CdForm, DvdForm, BoardGameForm, MemberForm
 
 
 
@@ -84,12 +84,12 @@ class LibraryBooksView(LoginRequiredMixin,ListView):
     context_object_name = "books"
     paginate_by = 10
 
-@login_required
-def LibraryBookDetailView(request, slug):
-    identified_media = get_object_or_404(Book, slug=slug)
-    return render(request, "library/gest_media.html", {
-        "book_detail": identified_media
-    })
+# @login_required
+# def LibraryBookDetailView(request, slug):
+#     identified_media = get_object_or_404(Book, slug=slug)
+#     return render(request, "library/gest_media.html", {
+#         "book_detail": identified_media
+#     })
 
 class LibraryBookDetailView(LoginRequiredMixin, DetailView):
     model = Book
@@ -102,22 +102,24 @@ class LibraryBookDetailView(LoginRequiredMixin, DetailView):
 ''' CREATE VIEW '''
 
 ''' [FBV] - FUNCTION BASED VIEW '''
-@login_required
-def CreateBookView(request):
-    form = BookForm()
+# @login_required
+# def CreateBookView(request):
+#     form = BookForm()
 
-    if request.method == 'POST':
-        form = BookForm(request.POST)
-        if form.is_valid():
-            book = form.save(commit=False)
-            book.slug = slugify(book.title)
-            book.save()
-            return redirect('gest-books')
+#     if request.method == 'POST':
+#         form = BookForm(request.POST)
+#         if form.is_valid():
+#             book = form.save(commit=False)
+#             book.slug = slugify(book.title)
+#             book.save()
+#             return redirect('gest-books')
 
-    context = {
-        'form': form,
-    }
-    return render(request, 'library/create_book.html', context)
+#     context = {
+#         'form': form,
+#     }
+#     return render(request, 'library/create_book.html', context)
+
+
 ''' [CBV] - CLASS BASED VIEW '''
 class CreateBookView(LoginRequiredMixin, CreateView):
     model = Book
@@ -134,18 +136,18 @@ class CreateBookView(LoginRequiredMixin, CreateView):
     
 
 ''' DELETE VIEW '''
-@login_required
-def BookDeleteView(request, slug):
-    book = Book.objects.get(slug=slug)
+# @login_required
+# def BookDeleteView(request, slug):
+#     book = Book.objects.get(slug=slug)
 
-    if book.method == 'POST':
-        book.delete()
-        return redirect('gest-books')
+#     if book.method == 'POST':
+#         book.delete()
+#         return redirect('gest-books')
 
-    context = {
-        'book': book
-    }
-    return render(request, 'library/book_confirm_delete.html', context)
+#     context = {
+#         'book': book
+#     }
+#     return render(request, 'library/book_confirm_delete.html', context)
 
 class BookDeleteView(LoginRequiredMixin, DeleteView):
     model = Book
@@ -155,22 +157,22 @@ class BookDeleteView(LoginRequiredMixin, DeleteView):
     slug_url_kwarg = 'slug'
 
 ''' UPDATE VIEW '''
-@login_required
-def BookUpdateView(request, slug):
-    book = Book.objects.get(slug=slug)
+# @login_required
+# def BookUpdateView(request, slug):
+#     book = Book.objects.get(slug=slug)
 
-    form = BookForm(instance=book)
+#     form = BookForm(instance=book)
 
-    if request.method == 'POST':
-        form = BookForm(request.POST, instance=book)
-        if form.is_valid():
-            form.save()
-            return redirect('gest-books') 
+#     if request.method == 'POST':
+#         form = BookForm(request.POST, instance=book)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('gest-books') 
 
-    context = {
-        'form': form
-    }
-    return render(request, 'library/book_form.html', context)
+#     context = {
+#         'form': form
+#     }
+#     return render(request, 'library/book_form.html', context)
 
 class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
@@ -237,4 +239,47 @@ def LibraryBoardGamesDetailView(request, slug):
         "game_detail": identified_media
     })
 
+
+# -----------------------------------------------------------
+# LIBRARY MEMBERS VIEWS
+# -----------------------------------------------------------
+
+class MembersView(LoginRequiredMixin,ListView):
+    template_name = "library/members/gest_members.html"
+    model = Member
+    ordering = ["last_name"]
+    context_object_name = "members"
+    paginate_by = 10
+
+
+class CreateMemberView(LoginRequiredMixin, CreateView):
+    model = Member
+    form_class = MemberForm
+    template_name = 'library/members/member_form.html'
+    success_url = reverse_lazy('gest-members')
+
+
+class MemberDetailView(LoginRequiredMixin, DetailView):
+    model = Member
+    template_name = "library/gest_media.html"
+    pk_url_kwarg = 'id'
+    context_object_name = 'member_detail'
+
+
+class MemberDeleteView(LoginRequiredMixin, DeleteView):
+    model = Member
+    template_name = 'library/members/member_confirm_delete.html'
+    success_url = reverse_lazy('gest-members')
+    pk_url_kwarg = 'id'
+
+
+class MemberUpdateView(LoginRequiredMixin, UpdateView):
+    model = Member
+    form_class = MemberForm
+    template_name = 'library/members/member_form.html'
+    pk_url_kwarg = 'id'
+    success_url = reverse_lazy('gest-members')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 

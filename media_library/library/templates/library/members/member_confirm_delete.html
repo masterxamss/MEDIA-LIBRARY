@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Confirmer la suppression du membre
+{% endblock %}
+
+{% block content %}
+    <section class="confirm-delete">
+        <h1>Confirmer la suppression du membre {{ member.last_name }} {{ member.first_name }}</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <p>Êtes-vous sûr de vouloir supprimer ce membre ?</p>
+            <button type="submit" class="btn btn-danger">Supprimer</button>
+            <a href="{% url 'gest-members' %}" class="btn btn-secondary">Annuler</a>
+        </form>
+    </section>
+{% endblock %}

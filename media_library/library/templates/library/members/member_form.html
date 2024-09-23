@@ -6,15 +6,15 @@
 {% endblock %}
 
 {% block title %}
-    Nouveau livre
+    Nouveau membre
 {% endblock %}
 
 {% block content %}
     <section class="book-form">
-        <h1 class="text-center">Créer un nouveau livre</h1>
+        <h1 class="text-center">Créer un nouveau membre</h1>
         {% if form.errors %}
         <div id="alert">
-          <h2>L'enregistrement du livre a échoué</h2>
+          <h2>L'enregistrement du membre a échoué</h2>
           <p>Veuillez corriger les erreurs ci-dessous.</p>
         </div>
         {% endif %} 
@@ -30,6 +30,6 @@
             <button class="btn btn-success btn-block" type="submit">Enregistrer le livre</button>
             <input class="btn btn-primary btn-block" type="reset" value="Reset">
         </form>
-        <a href="{% url 'gest-books' %}" class="btn btn-primary btn-lg mt-1" role="buttone">Retourner</a>
+        <a href="{% url 'gest-members' %}" class="btn btn-primary btn-lg mt-1 mb-5" role="buttone">Retourner</a>
     </section>
 {% endblock %}

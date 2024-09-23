@@ -28,4 +28,11 @@ urlpatterns = [
     # BOARD GAMES URLS
     path("gest-games/", views.LibraryBoardGamesView.as_view(), name="gest-games"),
     path("gest-games/<str:slug>/", views.LibraryBoardGamesDetailView, name="gest-game-detail"),
+
+    # MEMBERS URLS
+    path("gest-members/", views.MembersView.as_view(), name="gest-members"),
+    path("create-member/", views.CreateMemberView.as_view(), name="create-member"),
+    path("gest-members/<int:id>/", views.MemberDetailView.as_view(), name="member-detail"),
+    path("delete-member/<int:id>/", views.MemberDeleteView.as_view(), name="delete-member"),
+    path("update-member/<int:id>/", views.MemberUpdateView.as_view(), name="update-member"),
 ]

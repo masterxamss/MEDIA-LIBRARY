@@ -9,6 +9,8 @@
         {{ dvd_detail.title }}
     {% elif game_detail %}
         {{ game_detail.title }}
+    {% elif member_detail %}
+        {{ member.last_name }} {{ member.first_name }}
     {% endif %}
 {% endblock %}
 
@@ -27,6 +29,10 @@
         {% endwith %}
     {% elif game_detail %}
         {% with template="library/includes/gest_board_game_detail.html" %}
+            {% include ""|add:template %}
+        {% endwith %}
+    {% elif member_detail %}
+        {% with template="library/includes/gest_member_detail.html" %}
             {% include ""|add:template %}
         {% endwith %}
     {% endif %}
