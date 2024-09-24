@@ -1,6 +1,7 @@
 import pytest
 from django.utils import timezone
-from library.models import Member, Book, Dvd, Cd, MediaRequests
+from datetime import date
+from library.models import Member, Book, Dvd, Cd, MediaReservations
 
 '''
     Test creat a media request : 
@@ -36,7 +37,7 @@ class TestMediaRequests:
         )
 
         # Create a media request
-        media_request = MediaRequests.objects.create(
+        media_request = MediaReservations.objects.create(
             member=member,
             book=book,
             date_due=timezone.now() + timezone.timedelta(days=7)
@@ -68,7 +69,7 @@ class TestMediaRequests:
             director="Gore Verbinski"
         )
 
-        media_request = MediaRequests.objects.create(
+        media_request = MediaReservations.objects.create(
             member=member,
             dvd=dvd,
             date_due=timezone.now() + timezone.timedelta(days=7)
@@ -99,7 +100,7 @@ class TestMediaRequests:
             artist="Black Sabbath"
         )
 
-        media_request = MediaRequests.objects.create(
+        media_request = MediaReservations.objects.create(
             member=member,
             cd=cd,
             date_due=timezone.now() + timezone.timedelta(days=7)
@@ -147,7 +148,7 @@ class TestMediaRequests:
         )
 
         # Creation of the media order with the return date in the past
-        media_request = MediaRequests.objects.create(
+        media_request = MediaReservations.objects.create(
             member=member,
             book=book,
             # Return date two days in the past
@@ -179,7 +180,7 @@ class TestMediaRequests:
         )
 
         # Creation of media order with future return date
-        media_request = MediaRequests.objects.create(
+        media_request = MediaReservations.objects.create(
             member=member,
             book=book,
             date_due=timezone.now() + timezone.timedelta(days=5),  # Future return date
@@ -209,7 +210,7 @@ class TestMediaRequests:
             image="" 
         )
 
-        media_request = MediaRequests.objects.create(
+        media_request = MediaReservations.objects.create(
             member=member,
             book=book,
             date_due=timezone.now() - timezone.timedelta(days=1),  # Date of return in the past
@@ -244,7 +245,7 @@ class TestMediaRequests:
         )
 
         # Creation of media order with future return date
-        media_request = MediaRequests.objects.create(
+        media_request = MediaReservations.objects.create(
             member=member,
             book=book,
             date_due=timezone.now() + timezone.timedelta(days=7),
@@ -268,7 +269,7 @@ class TestMediaRequests:
         assert media_request.date_returned is not None
 
         # Verify if the media has been returned before the deadline
-        assert media_request.date_returned <= timezone.now()
+        assert media_request.date_returned <= date.today()
 
 
     '''
@@ -299,7 +300,7 @@ class TestMediaRequests:
             image="" 
         )
 
-        media_request = MediaRequests.objects.create(
+        media_request = MediaReservations.objects.create(
             member=member,
             book=book,
             date_requested=timezone.now() - timezone.timedelta(days=7),

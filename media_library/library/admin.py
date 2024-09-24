@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Member, BoardGame, Book, Cd, Dvd, MediaRequests
+from .models import Member, BoardGame, Book, Cd, Dvd, MediaReservations
 
 '''
 SUPERUSER
@@ -45,7 +45,7 @@ class DvdAdmin(admin.ModelAdmin):
     search_fields = ['title', 'director']
 
 
-class MediaRequestsAdmin(admin.ModelAdmin):
+class MediaReservationsAdmin(admin.ModelAdmin):
     list_display = ['member', 'book', 'dvd', 'cd','date_requested', 'date_due', 'returned', 'date_returned']
     search_fields = ['member', 'book', 'dvd', 'cd']
 
@@ -55,4 +55,4 @@ admin.site.register(BoardGame, BoardGameAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(Cd, CdAdmin)
 admin.site.register(Dvd, DvdAdmin)
-admin.site.register(MediaRequests, MediaRequestsAdmin)
+admin.site.register(MediaReservations, MediaReservationsAdmin)

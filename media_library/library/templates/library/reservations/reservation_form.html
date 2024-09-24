@@ -6,17 +6,22 @@
 {% endblock %}
 
 {% block title %}
-    Nouveau membre
+    Nouvelle réservation
 {% endblock %}
 
 {% block content %}
     <section class="book-form">
-        <h1 class="text-center">Créer un nouveau membre</h1>
+        <h1 class="text-center">Créer une nouvelle réservation</h1>
         {% if form.errors %}
-        <div id="alert">
-          <h2>L'enregistrement du membre a échoué</h2>
-          <p>Veuillez corriger les erreurs ci-dessous.</p>
-        </div>
+            <div id="alert">
+            <h2>L'enregistrement de la réservation a échoué</h2>
+            <p>Veuillez corriger les erreurs ci-dessous.</p>
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+            </div>
         {% endif %} 
         <form method="POST" class="jumbotron">
             {% csrf_token %}
@@ -27,9 +32,9 @@
                     {{ form_field.errors }}
                 </div>
             {% endfor %}
-            <button class="btn btn-success btn-block" type="submit">Enregistrer le membre</button>
+            <button class="btn btn-success btn-block" type="submit">Enregistrer</button>
             <input class="btn btn-primary btn-block" type="reset" value="Reset">
         </form>
-        <a href="{% url 'gest-members' %}" class="btn btn-primary btn-lg mt-1 mb-5" role="buttone">Retourner</a>
+        <a href="{% url 'gest-reservations' %}" class="btn btn-primary btn-lg mt-1" role="buttone">Retourner</a>
     </section>
 {% endblock %}

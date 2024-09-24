@@ -1,5 +1,6 @@
 from django import forms
-from . models import Member, BoardGame, Book, Cd, Dvd, MediaRequests
+from django.core.exceptions import ValidationError
+from . models import Member, BoardGame, Book, Cd, Dvd, MediaReservations
 
 # -----------------------------------------------------------
 # FORM MEMBERS
@@ -136,7 +137,7 @@ class BookForm(forms.ModelForm):
             'author': forms.TextInput(attrs={'placeholder': 'Auteur du livre', 'class': 'form-control'}),
             'pages': forms.NumberInput(attrs={'placeholder': 'Nombre de pages', 'class': 'form-control'}),
             'language': forms.TextInput(attrs={'placeholder': 'Langue du livre', 'class': 'form-control'}),
-            'release_date': forms.DateInput(attrs={'placeholder': 'Date de sortie', 'class': 'form-control'}),
+            'release_date': forms.DateInput(attrs={'placeholder': 'Date de sortie', 'class': 'form-control', 'type': 'date'}),
             'publisher': forms.TextInput(attrs={'placeholder': 'Editeur du livre', 'class': 'form-control'})
         }
 
@@ -246,46 +247,76 @@ class DvdForm(forms.ModelForm):
 # -----------------------------------------------------------
 # FORM MEDIA REQUEST
 # -----------------------------------------------------------
-class MediaRequestsForm(forms.ModelForm):
+class MediaReservationsForm(forms.ModelForm):
     class Meta:
-        model = MediaRequests
+        model = MediaReservations
         fields = '__all__'
-        error_messages = {
-            'member': {
-                'required': 'Veuillez renseigner le membre',
-            },
-            'book': {
-                'required': 'Veuillez renseigner le livre',
-            },
-            'dvd': {
-                'required': 'Veuillez renseigner le DVD',
-            },
-            'cd': {
-                'required': 'Veuillez renseigner le CD',
-            },
+        exclude = ['returned', 'date_returned']
+        labels = {
+            'date_requested': 'Date de requête',
+            'date_due': 'Date de retournement',
         }
+
         widgets = {
-            'member': forms.ModelChoiceField(
-                queryset=Member.objects.all(),
-                widget=forms.Select(attrs={'class': 'form-control'})),
-            'member': forms.ModelChoiceField(
-                queryset=Member.objects.all(),
-                widget=forms.Select(attrs={'class': 'form-control'}),
-                empty_label="Sélectionner un membre"),
-            'book': forms.ModelChoiceField(
-                queryset=Book.objects.filter(available=True),
-                widget=forms.Select(attrs={'class': 'form-control'}),
-                empty_label="Sélectionner un livre"),
-            'dvd': forms.ModelChoiceField(
-                queryset=Dvd.objects.filter(available=True),
-                widget=forms.Select(attrs={'class': 'form-control'}),
-                empty_label="Sélectionner un dvd"),
-            'cd': forms.ModelChoiceField(
-                queryset=Cd.objects.filter(available=True),
-                widget=forms.Select(attrs={'class': 'form-control'}),
-                empty_label="Sélectionner un cd"),
-            'date_requested': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'date_due': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'returned': forms.CheckboxInput(attrs={'class': 'form-control', 'type': 'checkbox'}),
-            'date_returned': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'})
+            'date_requested': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'readonly': 'true'}),
+            'date_due': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'readonly': 'true'}),
         }
+
+    member = forms.ModelChoiceField(
+        queryset=Member.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        empty_label='Sélectionner un membre',
+        label='Membre',
+        error_messages={'required': 'Veuillez renseigner le membre'}
+    )
+
+    book = forms.ModelChoiceField(
+        queryset=Book.objects.filter(available=True),
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        empty_label="Sélectionner un livre",
+        required=False,
+        label='Livre'
+    )
+    
+    dvd = forms.ModelChoiceField(
+        queryset=Dvd.objects.filter(available=True),
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        empty_label="Sélectionner un dvd",
+        required=False,
+        label='Dvd'
+    )
+    
+    cd = forms.ModelChoiceField(
+        queryset=Cd.objects.filter(available=True),
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        empty_label="Sélectionner un cd",
+        required=False,
+        label='Cd'
+    )
+    
+    def clean(self):
+        """
+        Checks if a member already has 3 active reservations.
+        If so, adds an error for the member.
+        Checks if one of the media fields (book, DVD or CD) has been filled in.
+        If not, adds an error.
+        """
+        cleaned_data = super().clean()
+        book = cleaned_data.get('book')
+        dvd = cleaned_data.get('dvd')
+        cd = cleaned_data.get('cd')
+        member = cleaned_data.get('member')
+        member_id = cleaned_data.get('member').id
+
+        if not (book or dvd or cd):
+            self.add_error(None, 'Veuillez sélectionner au moins un média (livre, DVD ou CD).')
+        
+        if member:
+            active_reservations = MediaReservations.objects.filter(member=member, returned=False).count()
+            member_bloqued = Member.objects.filter(id=member_id, blocked=True).exists()
+            if active_reservations >= 3:
+                self.add_error('member', 'Le membre ne peut pas avoir plus de 3 activité en cours.')
+            if member_bloqued:
+                self.add_error('member', 'Le membre est bloqué. Veuillez contacter l\'administrateur.')
+
+        return cleaned_data

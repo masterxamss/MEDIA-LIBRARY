@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from datetime import date
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 # -----------------------------------------------------------
@@ -21,7 +22,7 @@ class Member(models.Model):
         return f'{self.first_name} {self.last_name}'
 
     def __str__(self):
-        return f'{self.get_full_name()} - {self.email}'
+        return f'{self.get_full_name()}'
 
 
 # -----------------------------------------------------------
@@ -107,7 +108,7 @@ class Cd(Media):
 # -----------------------------------------------------------
 # MODEL REQUESTS
 # -----------------------------------------------------------
-class MediaRequests(models.Model):
+class MediaReservations(models.Model):
     member = models.ForeignKey(
         Member, on_delete=models.CASCADE, related_name='loans', null=False)
     book = models.ForeignKey(Book, on_delete=models.CASCADE,
@@ -116,13 +117,23 @@ class MediaRequests(models.Model):
                             related_name='dvd_loans', null=True, blank=True)
     cd = models.ForeignKey(Cd, on_delete=models.CASCADE,
                            related_name='cd_loans', null=True, blank=True)
-    date_requested = models.DateTimeField(default=timezone.now, null=False)
-    date_due = models.DateTimeField()
+    date_requested = models.DateField(default=date.today, null=False)
+    date_due = models.DateField(default= date.today() + timezone.timedelta(days=7))
     returned = models.BooleanField(default=False)
-    date_returned = models.DateTimeField(null=True, blank=True)
+    date_returned = models.DateField(null=True, blank=True)
 
     class Meta:
-        verbose_name_plural = "Media Requests"
+        verbose_name_plural = "Media Reservations"
+
+    def get_media_items(self):
+        media_items = []
+        if self.book:
+            media_items.append(self.book)
+        if self.dvd:
+            media_items.append(self.dvd)
+        if self.cd:
+            media_items.append(self.cd)
+        return media_items
 
 
     def is_overdue(self):
@@ -136,7 +147,7 @@ class MediaRequests(models.Model):
         # Marks the item as returned and records the return date
         if not self.returned:
             self.returned = True
-            self.date_returned = timezone.now()
+            self.date_returned = date.today()
             self.save()
 
     def get_loan_duration(self):

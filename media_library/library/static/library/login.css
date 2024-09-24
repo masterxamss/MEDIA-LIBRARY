@@ -1,7 +1,6 @@
-.container .section-login{
+.section-login{
     width: 500px;
     padding: 2rem;
-    margin-top: 20%;
-    background-color: #b7b8b9;
+    background-color: rgba(183, 184, 185, 0.4);
     border-radius: 10px;
 }
