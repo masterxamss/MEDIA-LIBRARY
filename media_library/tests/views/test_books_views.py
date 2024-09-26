@@ -9,7 +9,9 @@ class TestBooksView:
 
     @pytest.fixture
     def create_books(self):
-        # Create test data
+        """
+        Pytest fixture that creates 3 test books for testing the view that displays all books.
+        """   
         Book.objects.create(
             title='Book A',
             slug='book-a',
@@ -38,19 +40,35 @@ class TestBooksView:
             publisher='Publisher C'
         )
 
-    # Checks that the book listing page returns a status of 200 OK.
     def test_view_status_code(self, client, create_books):
+        """
+        Tests that the view returns a 200 status code when a GET request is sent to it.
+        """
         response = client.get('/books/')
         assert response.status_code == 200
 
-    # Check that the correct template is being used (member/books.html).
+
     def test_view_uses_correct_template(self, client, create_books):
+        """
+        Tests that the view uses the correct template.
+
+        The test first sends a GET request to the view.
+        Then it verifies that the response status code is 200.
+        Finally, it verifies that the response templates include the 'member/books.html' template.
+        """
         response = client.get(reverse('books'))
         assert response.status_code == 200
         assert 'member/books.html' in [t.name for t in response.templates]
 
-    # Check that the books are present in the context of the answer and that they are ordered correctly.
+
     def test_view_returns_correct_books(self, client, create_books):
+        """
+        Tests that the view returns all books in the database.
+
+        The test first sends a GET request to the view.
+        Then it verifies that the response status code is 200.
+        Finally, it verifies that the response contains a list of all books in the database, with the books in the correct order.
+        """
         response = client.get(reverse('books'))
         assert response.status_code == 200
         books = response.context['books']
@@ -65,7 +83,9 @@ class TestBookDetailView:
 
     @pytest.fixture
     def create_book(self, db):
-        # Criando um CD de exemplo para o teste
+        """
+        Pytest fixture that creates a test book for testing the view that displays a single book.
+        """
         return Book.objects.create(
             title='Book A',
             slug='book-a',
@@ -76,22 +96,39 @@ class TestBookDetailView:
             publisher='Publisher A'
         )
 
+
     def test_book_detail_view_status_code(self, client, create_book):
-        # Testando se a view de detalhe está acessível pela URL correta
+        """
+        Tests that the book detail view returns a 200 status code when a GET request is sent to it.
+        """
         response = client.get(
             reverse('book_detail', kwargs={'slug': create_book.slug}))
         assert response.status_code == 200
 
+
     def test_book_detail_uses_correct_template(self, client, create_book):
-        # Testando se a view usa o template correto
+        """
+        Tests that the book detail view uses the correct template.
+
+        The test first sends a GET request to the view.
+        Then it verifies that the response status code is 200.
+        Finally, it verifies that the response templates include the 'member/media_detail.html' template.
+        """
         response = client.get(
             reverse('book_detail', kwargs={'slug': create_book.slug}))
         assert response.status_code == 200
         assert 'member/media_detail.html' in [
             t.name for t in response.templates]
 
+
     def test_book_detail_returns_correct_book(self, client, create_book):
-        # Testando se o contexto contém o CD correto
+        """
+        Tests that the book detail view returns the correct book when a GET request is sent to it.
+
+        The test first sends a GET request to the view.
+        Then it verifies that the response status code is 200.
+        Finally, it verifies that the response contains the correct book.
+        """
         response = client.get(
             reverse('book_detail', kwargs={'slug': create_book.slug}))
         assert response.status_code == 200

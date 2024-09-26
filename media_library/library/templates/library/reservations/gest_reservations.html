@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %} Réservations {% endblock %} 
+
+{% block content %}
+<h1 class="text-center">Liste de Réservations</h1>
+<table id="table-reservations" class="table table-border table-striped text-center">
+  <thead class="thead-dark">
+    <tr>
+      <th>Réserve ID</th>
+      <th>Membre</th>
+      <th>Médias</th>
+      <th>Date demande</th>
+      <th>Date limite de livraison</th>
+      <th>Date livraison</th>
+      <th>Retourné</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for reservation in reservations %}
+    <tr>
+      <td>
+        <a href="#"> {{ reservation.id }} </a>
+      </td>
+      <td>
+        <a href="{% url 'member-detail' reservation.member.id %}">{{ reservation.member }}</a>
+      </td>
+      <td>
+        <ul id="media-list-resevations">
+          {% for media in reservation.media_items %}
+            <li>{{ media }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+      <td>{{ reservation.date_requested }}</td>
+      <td class='bg-warning'>{{ reservation.date_due }}</td>
+
+        {% if reservation.date_returned is none %}
+          <td class='text-center'>-</td>
+        {% else %}
+          <td>{{ reservation.date_returned }}</td>
+        {% endif %}
+
+        {% if reservation.returned %}
+          <td class='bg-success text-center'>Oui</td>
+        {% else %}
+          <td class='bg-danger text-center'>Non</td>
+        {% endif %}
+      <td>
+        <form method="post" action="{% url 'gest-reservations' %}">
+          {% csrf_token %}
+            <input type="hidden" name="reservation_id" value="{{ reservation.id }}">
+            <button class='btn btn-warning btn-sm' type="submit">Retourné</button>
+        </form>
+        <a href="{% url 'delete-reservation' reservation.id %}" class="btn btn-danger btn-sm">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div>
+  <a
+    href="{% url 'home-library' %}"
+    class="btn btn-primary btn-lg mt-1"
+    role="buttone"
+  >
+    Retourner
+  </a>
+  <a href="{% url 'create-reservation' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
+    Nouvelle réservation
+  </a>
+</div>
+{% endblock %}

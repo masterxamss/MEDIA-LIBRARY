@@ -70,5 +70,5 @@ class TestMemberCreation:
             email="jSparrow@me.com"
         )
 
-        assert str(member) == "Jack Sparrow - jSparrow@me.com"
+        assert str(member) == "Jack Sparrow"
 

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Confirmer la suppression de la réservation 
+{% endblock %}
+
+{% block content %}
+    <section class="confirm-delete">
+        <h1>Confirmer la suppression de la réservation  Nº:{{ reservation.id }} - {{ reservation.member }}</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <p>Êtes-vous sûr de vouloir supprimer cette réserve ?</p>
+            <button type="submit" class="btn btn-danger">Supprimer</button>
+            <a href="{% url 'gest-reservations' %}" class="btn btn-secondary">Annuler</a>
+        </form>
+    </section>
+{% endblock %}

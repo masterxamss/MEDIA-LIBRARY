@@ -10,6 +10,10 @@
       {{ game_detail.creator }}
     </li>
   </ul>
+  <div>
+    <a href="{% url 'delete-game' game_detail.slug %}" class="btn btn-danger btn-sm mt-1">Supprimer</a>
+    <a href="{% url 'update-game' game_detail.slug %}" class="btn btn-warning btn-sm mt-1">Editer</a>
+  </div>
   <a
     href="{% url 'gest-games' %}"
     class="btn btn-primary btn-lg mt-1"

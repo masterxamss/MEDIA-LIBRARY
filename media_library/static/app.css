@@ -1,6 +1,14 @@
 body{
     padding-top: 56px;
 }
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2rem;
+}
+
 .navbar{
     background-color: #343a40;
 }
@@ -21,4 +29,14 @@ body{
 }
 .table th, .table td{
     vertical-align: middle;
+}
+
+#media-list-resevations{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.table{
+    width: 90%;
 }

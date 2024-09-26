@@ -26,7 +26,12 @@
             {% endfor %}
         </tbody>
     </table>
-    <a href="{% url 'home-library' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
-        Retourner
-    </a>
+    <div>
+        <a href="{% url 'home-library' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
+            Retourner
+        </a>
+        <a href="{% url 'create-game' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
+            Noveau jeu
+        </a>
+    </div>
 {% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Confirmer la suppression du Dvd
+{% endblock %}
+
+{% block content %}
+    <section class="confirm-delete">
+        <h1>Confirmer la suppression du Dvd "{{ dvd.title }}"</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <p>Êtes-vous sûr de vouloir supprimer ce Cd ?</p>
+            <button type="submit" class="btn btn-danger">Supprimer</button>
+            <a href="{% url 'gest-dvds' %}" class="btn btn-secondary">Annuler</a>
+        </form>
+    </section>
+{% endblock %}
