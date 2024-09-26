@@ -7,7 +7,7 @@ from library.models import BoardGame
 
 
 class BoardGamesView(LoginRequiredMixin,ListView):
-    template_name = "library/gest_board_games.html"
+    template_name = "library/board_games/gest_board_games.html"
     model = BoardGame
     ordering = ["name"]
     context_object_name = "board_games"

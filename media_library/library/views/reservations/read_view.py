@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from library.models import MediaReservations
+from library.models import Book, Cd, Dvd
 
 class ReservationsView(LoginRequiredMixin,ListView):
     template_name = "library/reservations/gest_reservations.html"
@@ -23,11 +24,11 @@ class ReservationsView(LoginRequiredMixin,ListView):
             dict: The context data dictionary with the added media items lists.
         """
         context = super().get_context_data(**kwargs)
-        # Adiciona uma lista de itens de mídia para cada reserva
         for reservation in context['reservations']:
             reservation.media_items = reservation.get_media_items()
         return context
     
+
     def post(self, request, *args, **kwargs):     
         """
         Marks a reservation as returned and updates the availability of the associated media item.
@@ -43,18 +44,14 @@ class ReservationsView(LoginRequiredMixin,ListView):
         reservation_id = request.POST.get('reservation_id')
         reservation = get_object_or_404(MediaReservations, id=reservation_id)
         
-        reservation.returned = True
-        reservation.date_returned = timezone.now().date()
-        reservation.save()
+        reservation.return_item()
+        reservation.refresh_from_db()
 
         if reservation.book:
-            reservation.book.available = True
-            reservation.book.save()
+            Book.update_book_available(reservation.book.id)
         if reservation.dvd:
-            reservation.dvd.available = True
-            reservation.dvd.save()
+            Dvd.update_dvd_available(reservation.dvd.id)
         if reservation.cd:
-            reservation.cd.available = True
-            reservation.cd.save()
+            Cd.update_cd_available(reservation.cd.id)
         
         return redirect(reverse('gest-reservations'))

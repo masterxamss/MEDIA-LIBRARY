@@ -23,7 +23,7 @@ from library.forms import BookForm
 ''' CREATE VIEW '''
 
 
-''' [CBV] - CLASS BASED VIEW '''
+'''  CLASS BASED VIEW '''
 class CreateBookView(LoginRequiredMixin, CreateView):
     model = Book
     form_class = BookForm
@@ -37,7 +37,7 @@ class CreateBookView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-''' [FBV] - FUNCTIONS BASED VIEWS '''
+'''  FUNCTIONS BASED VIEWS '''
 # @login_required
 # def CreateBookView(request):
 #     """

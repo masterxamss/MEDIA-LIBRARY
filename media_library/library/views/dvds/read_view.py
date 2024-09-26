@@ -7,7 +7,7 @@ from library.models import Dvd
 
 
 class DvdView(LoginRequiredMixin,ListView):
-    template_name = "library/gest_dvds.html"
+    template_name = "library/dvds/gest_dvds.html"
     model = Dvd
     ordering = ["title"]
     context_object_name = "dvds"

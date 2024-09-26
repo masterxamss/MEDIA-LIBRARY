@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 from library.models import Cd
 
 class CdView(LoginRequiredMixin,ListView):
-    template_name = "library/gest_cds.html"
+    template_name = "library/cds/gest_cds.html"
     model = Cd
     ordering = ["title"]
     context_object_name = "cds"
