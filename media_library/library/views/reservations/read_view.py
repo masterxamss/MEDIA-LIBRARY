@@ -5,13 +5,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from library.models import MediaReservations
 from library.models import Book, Cd, Dvd
+import logging
+
+logger = logging.getLogger('library')
 
 class ReservationsView(LoginRequiredMixin,ListView):
     template_name = "library/reservations/gest_reservations.html"
     model = MediaReservations
     ordering = ["-date_requested"]
     context_object_name = "reservations"
-    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         """
@@ -31,27 +33,39 @@ class ReservationsView(LoginRequiredMixin,ListView):
 
     def post(self, request, *args, **kwargs):     
         """
-        Marks a reservation as returned and updates the availability of the associated media item.
-
+        Handles a POST request to return a reservation.
+        
+        Retrieves the reservation ID from the request, gets the reservation
+        object from the database, and calls its return_item method. Updates
+        the available status of the associated book, DVD or CD.
+        
         Args:
-            request (HttpRequest): The request that triggered this function.
+            request (HttpRequest): The POST request containing the reservation ID to return.
             *args: Additional arguments passed to the function.
             **kwargs: Additional keyword arguments passed to the function.
-
+        
         Returns:
-            HttpResponse: A redirect to the list of reservations.
+            HttpResponse: A redirect response to the reservation list.
+        
+        Logs an info message with the user and reservation ID being returned.
+        Logs an error message with the user and reservation ID if an error occurs.
         """
-        reservation_id = request.POST.get('reservation_id')
-        reservation = get_object_or_404(MediaReservations, id=reservation_id)
-        
-        reservation.return_item()
-        reservation.refresh_from_db()
+        try:
+            logger.info('User %s is attempting to return reservation ID: %s', self.request.user, request.POST.get('reservation_id'))
+            reservation_id = request.POST.get('reservation_id')
+            reservation = get_object_or_404(MediaReservations, id=reservation_id)
+            reservation.return_item()
+            reservation.refresh_from_db()
 
-        if reservation.book:
-            Book.update_book_available(reservation.book.id)
-        if reservation.dvd:
-            Dvd.update_dvd_available(reservation.dvd.id)
-        if reservation.cd:
-            Cd.update_cd_available(reservation.cd.id)
-        
-        return redirect(reverse('gest-reservations'))
+            if reservation.book:
+                Book.update_book_available(reservation.book.id)
+            if reservation.dvd:
+                Dvd.update_dvd_available(reservation.dvd.id)
+            if reservation.cd:
+                Cd.update_cd_available(reservation.cd.id)
+
+            logger.debug('Reservation successfully returned by user: %s', self.request.user)
+            return redirect(reverse('gest-reservations'))
+        except Exception as e:
+            logger.error('Error occurred while returning reservation ID %s by user %s: %s', reservation_id, self.request.user, str(e))
+            return redirect(reverse('gest-reservations'))

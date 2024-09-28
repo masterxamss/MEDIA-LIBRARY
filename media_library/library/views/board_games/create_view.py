@@ -1,14 +1,3 @@
-'''
-
-This view allows you to create a new board_game in the system.
-
-  *  Ensures that the user is authenticated before allowing board_game creation.
-  *  Uses a form (BoardGameForm) to validate and collect the board_game's data.
-  *  Modifies the board_game's slug before saving it.
-  *  Redirects the user to a success page after the board_game has been created.
-
-'''
-
 # from django.shortcuts import render, redirect
 # from django.contrib.auth.decorators import login_required
 
@@ -19,11 +8,11 @@ from django.views.generic.edit import CreateView
 from library.models import BoardGame
 from library.forms import BoardGameForm
 
+import logging
 
-''' CREATE VIEW '''
+logger = logging.getLogger('library')
 
 
-'''  CLASS BASED VIEW '''
 class CreateBoardGameView(LoginRequiredMixin, CreateView):
     model = BoardGame
     form_class = BoardGameForm
@@ -31,10 +20,18 @@ class CreateBoardGameView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('gest-games')
 
     def form_valid(self, form):
-        board_game = form.save(commit=False)
-        board_game.slug = slugify(board_game.name)
-        board_game.save()
-        return super().form_valid(form)
+        try:
+            logger.info('Create board game - USER: %s', self.request.user)
+            board_game = form.save(commit=False)
+            board_game.slug = slugify(board_game.name)
+            board_game.save()
+            logger.debug(
+                f'Board game created successfully: {form.cleaned_data}')
+            return super().form_valid(form)
+        except Exception as e:
+            logger.exception(
+				'An error occurred while creating board game: %s', str(e))
+            return super().form_invalid(form)
 
 
 '''  FUNCTIONS BASED VIEWS '''

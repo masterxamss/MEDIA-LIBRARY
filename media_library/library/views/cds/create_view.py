@@ -8,11 +8,12 @@ from django.views.generic.edit import CreateView
 from library.models import Cd
 from library.forms import CdForm
 
+import logging
 
-''' CREATE VIEW '''
+
+logger = logging.getLogger('library')
 
 
-'''  CLASS BASED VIEW '''
 class CreateCdView(LoginRequiredMixin, CreateView):
     model = Cd
     form_class = CdForm
@@ -20,10 +21,16 @@ class CreateCdView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('gest-cds')
 
     def form_valid(self, form):
-        cd = form.save(commit=False)
-        cd.slug = slugify(cd.title)
-        cd.save()
-        return super().form_valid(form)
+        try:
+            logger.info('Create CD - USER: %s', self.request.user)
+            cd = form.save(commit=False)
+            cd.slug = slugify(cd.title)
+            cd.save()
+            logger.debug(f'CD created successfully: {form.cleaned_data}')
+            return super().form_valid(form)
+        except Exception as e:
+            logger.exception('An error occurred while creating CD: %s', str(e))
+            return super().form_invalid(form)
 
 
 '''  FUNCTIONS BASED VIEWS '''

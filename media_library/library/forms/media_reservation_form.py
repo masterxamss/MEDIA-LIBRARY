@@ -69,10 +69,13 @@ class MediaReservationsForm(forms.ModelForm):
             
             if book:
                 Book.update_book_available(book.id)
-            elif dvd:
-                Dvd.update_dvd_available(cd.id)
-            elif cd:
+                print('teste book')
+            if dvd:
+                Dvd.update_dvd_available(dvd.id)
+                print('teste dvd')
+            if cd:
                 Cd.update_cd_available(cd.id)
+                print('teste cd')
                 
         if member:
             active_reservations = MediaReservations.get_active_reservations(member_id)

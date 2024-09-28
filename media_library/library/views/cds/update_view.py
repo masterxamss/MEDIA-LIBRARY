@@ -7,21 +7,26 @@ from django.views.generic import UpdateView
 from library.models import Cd
 from library.forms import CdForm
 
+import logging
 
-''' UPDATE VIEW '''
+logger = logging.getLogger('library')
 
-''' [CBV] - CLASS BASED VIEW '''
 class CdUpdateView(LoginRequiredMixin, UpdateView):
     model = Cd
     form_class = CdForm
     template_name = 'library/cds/cd_form.html'
-    slug_field = 'slug'  # Especifica que o lookup será feito pelo campo slug
+    slug_field = 'slug'
     slug_url_kwarg = 'slug'
-    success_url = reverse_lazy('gest-cds')  # Redireciona após a atualização
+    success_url = reverse_lazy('gest-cds')
 
     def form_valid(self, form):
-        # Aqui você pode adicionar lógica adicional, se necessário
-        return super().form_valid(form)
+        try:
+            logger.info('Update CD - USER: %s', self.request.user)
+            logger.debug(f'CD updated successfully: {form.cleaned_data}')
+            return super().form_valid(form)
+        except Exception as e:
+            logger.exception('An error occurred while updating CD: %s', str(e))
+            return super().form_invalid(form)
 
 
 ''' [FBV] - FUNCTION BASED VIEW '''

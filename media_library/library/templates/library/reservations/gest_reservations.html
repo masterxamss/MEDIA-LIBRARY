@@ -52,8 +52,8 @@
           {% csrf_token %}
             <input type="hidden" name="reservation_id" value="{{ reservation.id }}">
             <button class='btn btn-warning btn-sm' type="submit">Retourné</button>
+            <a href="{% url 'delete-reservation' reservation.id %}" class="btn btn-danger btn-sm">Delete</a>
         </form>
-        <a href="{% url 'delete-reservation' reservation.id %}" class="btn btn-danger btn-sm">Delete</a>
       </td>
     </tr>
     {% endfor %}

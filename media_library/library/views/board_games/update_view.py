@@ -7,10 +7,10 @@ from django.views.generic import UpdateView
 from library.models import BoardGame
 from library.forms import BoardGameForm
 
+import logging
 
-''' UPDATE VIEW '''
+logger = logging.getLogger('library')
 
-''' [CBV] - CLASS BASED VIEW '''
 class BoardGameUpdateView(LoginRequiredMixin, UpdateView):
     model = BoardGame
     form_class = BoardGameForm
@@ -20,7 +20,15 @@ class BoardGameUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('gest-games')
 
     def form_valid(self, form):
-        return super().form_valid(form)
+        try:
+            logger.info('Update board game - USER: %s', self.request.user)
+            logger.debug(
+                f'Board game updated successfully: {form.cleaned_data}')
+            return super().form_valid(form)
+        except Exception as e:
+            logger.exception(
+                'An error occurred while updating board game: %s', str(e))
+            return super().form_invalid(form)
 
 
 ''' [FBV] - FUNCTION BASED VIEW '''
