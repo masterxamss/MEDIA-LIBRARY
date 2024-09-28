@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -137,3 +138,80 @@ LOGIN_REDIRECT_URL = 'home-library'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {
+#             'format': '{levelname} {asctime} {module} {message}',
+#             'style': '{',
+#         },
+#     },
+#     'handlers': {
+#         'info_file': {
+#             'level': 'INFO',
+#             'class': 'logging.FileHandler',
+#             'filename': os.path.join(BASE_DIR, 'info.log'),  # Garante que o arquivo esteja na raiz do projeto
+#             'formatter': 'verbose',
+#         },
+#         'error_file': {
+#             'level': 'ERROR',
+#             'class': 'logging.FileHandler',
+#             'filename': os.path.join(BASE_DIR, 'error.log'),  # Garante que o arquivo esteja na raiz do projeto
+#             'formatter': 'verbose',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['info_file', 'error_file'],
+#             'level': 'DEBUG',  # Captura todos os níveis de log
+#             'propagate': True,
+#         },
+#         'library': {  # Seu app específico
+#             'handlers': ['info_file', 'error_file'],
+#             'level': 'DEBUG',  # Também captura todos os níveis de log
+#             'propagate': False,
+#         },
+#     },
+# }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'level': 'DEBUG',  # Define o nível mínimo de log a ser registrado no arquivo
+            'class': 'logging.FileHandler',
+            'filename': 'info.log',  # Nome do arquivo de log
+            'formatter': 'verbose',  # Formato do log que será usado para o arquivo
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'library': {  # Logger específico para o seu app
+            'handlers': ['file', 'console'],  # Agora usa tanto o console quanto o arquivo
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
+
