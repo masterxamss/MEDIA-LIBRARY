@@ -19,6 +19,12 @@ class Dvd(Media):
         return f'{self.title} - {self.director}'
     
     def update_dvd_available(dvd_id):
+        """
+        Toggles the availability of a DVD.
+
+        Args:
+            dvd_id (int): The id of the DVD to update.
+        """
         get_dvd = Dvd.objects.get(id=dvd_id)
         get_dvd.available = not get_dvd.available
         get_dvd.save()

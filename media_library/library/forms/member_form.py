@@ -1,6 +1,7 @@
 from django import forms
 from library.models.member_model import Member
 
+
 class MemberForm(forms.ModelForm):
     class Meta:
         model = Member

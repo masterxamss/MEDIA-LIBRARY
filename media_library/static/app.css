@@ -27,8 +27,17 @@ main{
     flex-direction: column;
     margin-top: 3rem;
 }
+
+section h1{
+    margin: 2rem;
+}
+
 .table th, .table td{
     vertical-align: middle;
+}
+
+.table .image-table{
+    width: 100px;
 }
 
 #media-list-resevations{
@@ -38,5 +47,119 @@ main{
 }
 
 .table{
-    width: 90%;
+    width: 98%;
 }
+
+.image-container{
+    height:100%;
+}
+
+.image-container img{
+    height: 400px;
+}
+
+section .content{
+    display: flex;
+    gap: 1rem;
+    height: fit-content;
+}
+
+#media-details{
+    width: 100%;
+}
+
+.container-btn{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.container-btn a{
+    margin-left: 1rem;
+}
+
+#books{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.list-books{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width:100%;
+    background-color: #fff;
+}
+
+.search-block{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:20%;
+    height: 100%;
+    margin-left: 1rem;
+}
+
+.search-block form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: .5rem;
+    background-color: rgb(202, 201, 201);
+}
+
+.search-block__title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:.2rem;
+}
+.search-block__title, input, button{
+    width: 100%;
+}
+
+.search-block__title label{
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: rgb(33, 33, 33);
+    text-align: left;
+    width:100%;
+}
+
+.search-block__filters{
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.search-block__filters div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: .5rem;
+    margin-top: .5rem;
+    width: 100%;
+}
+
+.search-block__filters div label{
+    margin: 0;
+}
+
+.search-block__filters div input{
+    width: 20px;
+}
+
+.result-books{
+    width:80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+}
+
+
+
+

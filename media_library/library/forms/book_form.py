@@ -1,22 +1,21 @@
 from django import forms
 from library.models import Book
 
-# -----------------------------------------------------------
-# FORM BOOK
-# -----------------------------------------------------------
+
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = '__all__'
         exclude = ['slug', 'available']
+        book_image = forms.ImageField()
         labels = {
             'title': 'Titre',
             'author': 'Auteur',
             'pages': 'Pages',
             'language': 'Langue',
             'release_date': 'Date de sortie',
-            'publisher': 'Editeur'
-
+            'publisher': 'Editeur',
+            'description': 'Description'
         }
         error_messages = {
             'title': {
@@ -41,7 +40,11 @@ class BookForm(forms.ModelForm):
             'publisher': {
                 'required': 'Veuillez renseigner l\'editeur',
                 'max_length': 'Limite de caractères dépassée'
+            },
+            'description': {
+                'max_length': 'Limite de caractères dépassée'
             }
+
         }
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Titre du livre', 'class': 'form-control'}),
@@ -49,5 +52,6 @@ class BookForm(forms.ModelForm):
             'pages': forms.NumberInput(attrs={'placeholder': 'Nombre de pages', 'class': 'form-control'}),
             'language': forms.TextInput(attrs={'placeholder': 'Langue du livre', 'class': 'form-control'}),
             'release_date': forms.DateInput(attrs={'placeholder': 'Date de sortie', 'class': 'form-control', 'type': 'date'}),
-            'publisher': forms.TextInput(attrs={'placeholder': 'Editeur du livre', 'class': 'form-control'})
+            'publisher': forms.TextInput(attrs={'placeholder': 'Editeur du livre', 'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Description du livre', 'class': 'form-control'})
         }

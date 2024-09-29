@@ -1,6 +1,7 @@
 from django import forms
 from library.models import Member, Book, Cd, Dvd, MediaReservations
 
+
 class MediaReservationsForm(forms.ModelForm):
     class Meta:
         model = MediaReservations
@@ -31,7 +32,7 @@ class MediaReservationsForm(forms.ModelForm):
         required=False,
         label='Livre'
     )
-    
+
     dvd = forms.ModelChoiceField(
         queryset=Dvd.objects.filter(available=True),
         widget=forms.Select(attrs={'class': 'form-control'}),
@@ -39,7 +40,7 @@ class MediaReservationsForm(forms.ModelForm):
         required=False,
         label='Dvd'
     )
-    
+
     cd = forms.ModelChoiceField(
         queryset=Cd.objects.filter(available=True),
         widget=forms.Select(attrs={'class': 'form-control'}),
@@ -47,7 +48,7 @@ class MediaReservationsForm(forms.ModelForm):
         required=False,
         label='Cd'
     )
-    
+
     def clean(self):
         """
         Checks if a member already has 3 active reservations.
@@ -64,9 +65,10 @@ class MediaReservationsForm(forms.ModelForm):
         member_id = cleaned_data.get('member').id
 
         if not (book or dvd or cd):
-            self.add_error(None, 'Veuillez sélectionner au moins un média (livre, DVD ou CD).')
+            self.add_error(
+                None, 'Veuillez sélectionner au moins un média (livre, DVD ou CD).')
         else:
-            
+
             if book:
                 Book.update_book_available(book.id)
                 print('teste book')
@@ -76,15 +78,18 @@ class MediaReservationsForm(forms.ModelForm):
             if cd:
                 Cd.update_cd_available(cd.id)
                 print('teste cd')
-                
+
         if member:
-            active_reservations = MediaReservations.get_active_reservations(member_id)
+            active_reservations = MediaReservations.get_active_reservations(
+                member_id)
             member_bloqued = Member.get_member_blocked(member_id)
 
             if active_reservations >= 3:
-                self.add_error('member', 'Le membre ne peut pas avoir plus de 3 activité en cours.')
+                self.add_error(
+                    'member', 'Le membre ne peut pas avoir plus de 3 activité en cours.')
 
             if member_bloqued:
-                self.add_error('member', 'Le membre est bloqué. Veuillez contacter l\'administrateur.')
+                self.add_error(
+                    'member', 'Le membre est bloqué. Veuillez contacter l\'administrateur.')
 
         return cleaned_data

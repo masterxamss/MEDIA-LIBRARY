@@ -18,5 +18,14 @@ class Member(models.Model):
         return f'{self.get_full_name()}'
     
     def get_member_blocked(member_id):
+        """
+        Checks if a member is blocked.
+
+        Args:
+            member_id (int): The id of the member.
+
+        Returns:
+            bool: True if the member is blocked, False otherwise.
+        """
         member_bloqued = Member.objects.filter(id=member_id, blocked=True).exists()
         return member_bloqued

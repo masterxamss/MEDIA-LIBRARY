@@ -1,10 +1,12 @@
 from django import forms
 from library.models import BoardGame
 
+
 class BoardGameForm(forms.ModelForm):
     class Meta:
         model = BoardGame
         fields = '__all__'
+        book_image = forms.ImageField()
         exclude = ['slug']
         labels = {
             'name': 'Nom',

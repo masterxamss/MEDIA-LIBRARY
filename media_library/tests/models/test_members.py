@@ -17,6 +17,13 @@ by Django/pytest at the start and end of the test, respectively
 class TestMemberCreation:
     @pytest.mark.django_db
     def test_member_creation(self):
+        '''
+        Tests the creation of a Member object.
+
+        Creates a new Member object in the database using Member.objects.create().
+        Checks that all the fields in the member have been assigned correctly using assertions.
+        Each assert checks that the value of the field created corresponds to what is expected.
+        '''
         member = Member.objects.create(
             first_name="Jack",
             last_name="Sparrow",
@@ -37,16 +44,14 @@ class TestMemberCreation:
         assert member.postal_code == "12345"
         assert member.city == "Anytown"
 
-
-    '''
-    * Verify that the get_full_name method works correctly.
-
-    * Create a Member object with first_name and last_name.
-    * Use the get_full_name() method to return the full name.
-    * Check, using assert, that the value returned is “Jack Sparrow”.
-    '''
     @pytest.mark.django_db
     def test_get_full_name(self):
+        '''
+        Tests the get_full_name() method of the Member model.
+
+        Creates a Member object, and verifies that the get_full_name() method returns the
+        expected string, which is the first name followed by the last name.
+        '''
         member = Member.objects.create(
             first_name="Jack",
             last_name="Sparrow"
@@ -54,16 +59,15 @@ class TestMemberCreation:
 
         assert member.get_full_name() == "Jack Sparrow"
 
-    '''
-    * Check whether Member's __str__() method returns the expected string.
-
-    * Creates a Member object with first_name, last_name and email.
-    * Use the str() function to convert the object into a string.
-    * Check, with assert, that the string returned is “Jack Sparrow jSparrow@me.com”.
-    '''
 
     @pytest.mark.django_db
     def test_str(self):
+        '''
+        Tests the __str__() method of the Member model.
+
+        Creates a Member object, and verifies that the __str__() method returns the
+        expected string, which is the first name followed by the last name.
+        '''
         member = Member.objects.create(
             first_name="Jack",
             last_name="Sparrow",
