@@ -1,5 +1,12 @@
 <section class="d-flex flex-column justify-content-center w-75">
   <h1 class="text-center">{{ game_detail.name }}</h1>
+
+  {% if game_detail.image and game_detail.image.url %}
+    <img src="{{ game_detail.image.url }}" alt="Table game Image">
+  {% else %}
+    <img src="{{ MEDIA_URL }}images/games-placeholder.jpg" alt="Table game Placeholder">
+  {% endif %}
+
   <ul class="list-group">
     <li class="list-group-item list-group-item-dark">
       <strong>Nom:</strong>

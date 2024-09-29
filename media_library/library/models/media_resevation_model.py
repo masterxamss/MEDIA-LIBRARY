@@ -25,12 +25,10 @@ class MediaReservations(models.Model):
 
 
     def get_media_items(self):
-
         """
         Returns a list of media items for the reservation.
         This can be one of either a book, DVD or CD.
         """
-
         media_items = []
         if self.book:
             media_items.append(self.book)
@@ -42,14 +40,11 @@ class MediaReservations(models.Model):
     
 
     def return_item(self):
-
         """
         Marks the item as returned and records the return date.
-
         Sets the returned boolean to True and sets the date_returned to the current date.
         Only does this if the reservation is not already marked as returned.
         """
-
         if not self.returned:
             self.returned = True
             self.date_returned = date.today()
@@ -57,27 +52,21 @@ class MediaReservations(models.Model):
 
 
     def __str__(self):
-
         """
         Displays the title of the book, DVD or CD, depending on which one is filled in, 
         followed by the name of the member.
         """
-
         media_title = 'Livre: ' + self.book.title if self.book else 'Dvd: ' + self.dvd.title if self.dvd else 'Cd: ' + self.cd.title
         return f'{media_title} - Membre: {self.member.first_name} {self.member.last_name}'
     
 
     def get_active_reservations(member_id):
-
         """
         Counts the number of active reservations for a given member.
-
         Args:
             member_id (int): The id of the member.
-
         Returns:
             int: The number of active reservations for the given member.
         """
-
         active_reservations = MediaReservations.objects.filter(member_id=member_id, returned=False).count()
         return active_reservations

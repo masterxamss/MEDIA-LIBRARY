@@ -5,10 +5,9 @@ from library.models import Member, Book, Dvd, Cd, MediaReservations
 
 
 class TestMediaRequests:
-    
+
     @pytest.mark.django_db
     def test_media_request_creation_with_book(self):
-
         """
         Test the creation of a media request with a book.
 
@@ -35,7 +34,7 @@ class TestMediaRequests:
             language="English",
             release_date="2001-01-01",
             publisher="Houghton Mifflin",
-            image=""       
+            image=""
         )
 
         # Create a media request
@@ -53,8 +52,8 @@ class TestMediaRequests:
         assert media_request.returned is False
         assert media_request.date_due > timezone.now()
 
-        assert str(media_request) == "Livre: Alice in wonderland - Membre: Jack Sparrow"
-
+        assert str(
+            media_request) == "Livre: Alice in wonderland - Membre: Jack Sparrow"
 
     @pytest.mark.django_db
     def test_media_request_creation_with_dvd(self):
@@ -86,11 +85,11 @@ class TestMediaRequests:
         assert media_request.returned is False
         assert media_request.date_due > timezone.now()
 
-        assert str(media_request) == "Dvd: Pirates of the Caribbean - Membre: Jack Sparrow"
-
+        assert str(
+            media_request) == "Dvd: Pirates of the Caribbean - Membre: Jack Sparrow"
 
     @pytest.mark.django_db
-    def test_media_request_creation_with_cd(self):       
+    def test_media_request_creation_with_cd(self):
         """
         Test the creation of a media request with a CD.
         """
@@ -121,7 +120,6 @@ class TestMediaRequests:
 
         assert str(media_request) == "Cd: Paranoid - Membre: Jack Sparrow"
 
-
     @pytest.mark.django_db
     def test_return_item(self):
         """
@@ -146,7 +144,7 @@ class TestMediaRequests:
             language="English",
             release_date="2001-01-01",
             publisher="Houghton Mifflin",
-            image="" 
+            image=""
         )
 
         # Creation of media order with future return date

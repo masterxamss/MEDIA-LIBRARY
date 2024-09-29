@@ -18,7 +18,7 @@
           <p>Veuillez corriger les erreurs ci-dessous.</p>
         </div>
         {% endif %} 
-        <form method="POST" class="jumbotron">
+        <form method="POST" class="jumbotron" enctype="multipart/form-data>
             {% csrf_token %}
             {% for form_field in form %}
                 <div class="{% if form_field.errors %}invalid{% endif %}">

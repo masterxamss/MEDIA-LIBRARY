@@ -69,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -125,6 +126,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 MEDIA_ROOT = BASE_DIR / 'uploads'
+MEDIA_URL = '/media-files/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
@@ -138,43 +140,6 @@ LOGIN_REDIRECT_URL = 'home-library'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
-
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'formatters': {
-#         'verbose': {
-#             'format': '{levelname} {asctime} {module} {message}',
-#             'style': '{',
-#         },
-#     },
-#     'handlers': {
-#         'info_file': {
-#             'level': 'INFO',
-#             'class': 'logging.FileHandler',
-#             'filename': os.path.join(BASE_DIR, 'info.log'),  # Garante que o arquivo esteja na raiz do projeto
-#             'formatter': 'verbose',
-#         },
-#         'error_file': {
-#             'level': 'ERROR',
-#             'class': 'logging.FileHandler',
-#             'filename': os.path.join(BASE_DIR, 'error.log'),  # Garante que o arquivo esteja na raiz do projeto
-#             'formatter': 'verbose',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['info_file', 'error_file'],
-#             'level': 'DEBUG',  # Captura todos os níveis de log
-#             'propagate': True,
-#         },
-#         'library': {  # Seu app específico
-#             'handlers': ['info_file', 'error_file'],
-#             'level': 'DEBUG',  # Também captura todos os níveis de log
-#             'propagate': False,
-#         },
-#     },
-# }
 
 LOGGING = {
     'version': 1,

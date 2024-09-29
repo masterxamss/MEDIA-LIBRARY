@@ -1,11 +1,18 @@
 import pytest
 from library.models import Book
 
+
 class TestBook():
 
     @pytest.mark.django_db
     def test_book_creation(self):
-        # Creation of the Book object
+        """
+        Tests the creation of a Book object.
+
+        Creates a new Book object in the database using Book.objects.create().
+        Checks that all the fields in the book have been assigned correctly using assertions.
+        Each assert checks that the value of the field created corresponds to what is expected.
+        """
         book = Book.objects.create(
             title="Lord of the Rings",
             available=True,
@@ -18,7 +25,6 @@ class TestBook():
             image=""
         )
 
-        # Test the attributes
         assert book.title == "Lord of the Rings"
         assert book.available == True
         assert book.slug == "lord-of-the-rings"
@@ -29,10 +35,14 @@ class TestBook():
         assert book.publisher == "Houghton Mifflin"
         assert book.image == ""
 
-
-    # Test the __str__() method
     @pytest.mark.django_db
     def test_str(self):
+        """
+        Tests the __str__() method of the Book model.
+
+        Creates a Book object, and verifies that the __str__() method returns the
+        expected string, which is the title of the book followed by the name of the author.
+        """
         book = Book.objects.create(
             title="Lord of the Rings",
             available=True,

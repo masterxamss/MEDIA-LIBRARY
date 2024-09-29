@@ -1,10 +1,12 @@
 from django import forms
 from library.models import Dvd
 
+
 class DvdForm(forms.ModelForm):
     class Meta:
         model = Dvd
         fields = '__all__'
+        book_image = forms.ImageField()
         exclude = ['slug', 'available']
         labels = {
             'title': 'Titre',

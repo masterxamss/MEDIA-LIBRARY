@@ -5,12 +5,15 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="text-center">Liste de Dvd's</h1>
+    <section id="list-media">
+    <h1 class="text-center text-primary">Liste de Dvd's</h1>
     <table class="table table-border table-striped ">
         <thead class="thead-dark">
             <tr>
                 <th>Titre</th>
+                <th>Auteur</th>
                 <th>Categorie</th>
+                <th>Note</th>
             </tr>
         </thead>
         <tbody>
@@ -18,20 +21,28 @@
                 <tr>
                     <td>
                         <a href="{% url 'gest-dvd-detail' dvd.slug %}">
+                            {% if dvd.image and dvd.image.url %}
+                                <img src="{{ dvd.image.url }}" alt="Dvd Image" class="image-table">
+                            {% else %}
+                                <img src="{{ MEDIA_URL }}images/dvd-placeholder.jpg" alt="dvd Image Placeholder" class="image-table">
+                            {% endif %}
                             {{ dvd.title }}
                         </a>
                     </td>
+                    <td>{{ dvd.director }}</td>
                     <td>{{ dvd.category }}</td>
+                    <td>{{ dvd.rating }}/5</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     <div>
-        <a href="{% url 'home-library' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
+        <a href="{% url 'home-library' %}" class="btn btn-primary btn-lg mt-1 mb-5" role="buttone">
             Retourner
         </a>
-        <a href="{% url 'create-dvd' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
+        <a href="{% url 'create-dvd' %}" class="btn btn-primary btn-lg mt-1 mb-5" role="buttone">
             Noveau Dvd
         </a>
     </div>
+</section>
 {% endblock %}

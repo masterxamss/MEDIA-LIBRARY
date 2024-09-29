@@ -1,41 +1,68 @@
 <section class="d-flex flex-column justify-content-center w-75">
-  <h1 class="text-center">{{ cd_detail.title }}</h1>
-  <ul class="list-group p-0">
-    <li class="list-group-item list-group-item-dark">
-      <strong>Artist:</strong>
-      {{ cd_detail.artist }}
-    </li>
-    <li class="list-group-item list-group-item-dark">
-      <strong>Album:</strong>
-      {{ cd_detail.album }}
-    </li>
-    <li class="list-group-item list-group-item-dark">
-      <strong>Année:</strong>
-      {{ cd_detail.year }}
-    </li>
-    <li class="list-group-item list-group-item-dark">
-      <strong>Genre:</strong>
-      {{ cd_detail.genre }}
-    </li>
-    {% if cd_detail.available %}
-    <li class="list-group-item list-group-item-success">
-      <strong>Disponible:</strong> Oui
-    </li>
-    {% else %}
-    <li class="list-group-item list-group-item-danger">
-      <strong>Disponible:</strong> Non
-    </li>
-    {% endif %}
-  </ul>
-  <div>
-    <a href="{% url 'delete-cd' cd_detail.slug %}" class="btn btn-danger btn-sm mt-1">Supprimer</a>
-    <a href="{% url 'update-cd' cd_detail.slug %}" class="btn btn-warning btn-sm mt-1">Editer</a>
+  <h1 class="text-center text-primary">{{ cd_detail.title }}</h1>
+
+  <div class="content">
+    <div class="image-container">
+      {% if cd_detail.image and cd_detail.image.url %}
+      <img src="{{ cd_detail.image.url }}" alt="Cd Image" />
+      {% else %}
+      <img
+        src="{{ MEDIA_URL }}images/cd-placeholder.jpg"
+        alt="Cd Image Placeholder"
+      />
+      {% endif %}
+    </div>
+    <div>
+      <ul class="list-group p-0">
+        <li class="list-group-item list-group-item-light">
+          <strong>Artist:</strong>
+          {{ cd_detail.artist }}
+        </li>
+        <li class="list-group-item list-group-item-light">
+          <strong>Album:</strong>
+          {{ cd_detail.album }}
+        </li>
+        <li class="list-group-item list-group-item-light">
+          <strong>Année:</strong>
+          {{ cd_detail.year }}
+        </li>
+        <li class="list-group-item list-group-item-light">
+          <strong>Genre:</strong>
+          {{ cd_detail.genre }}
+        </li>
+        <li class="list-group-item list-group-item-light">
+          <strong>Description:</strong>
+          {{ cd_detail.description }}
+        </li>
+        {% if cd_detail.available %}
+        <li class="list-group-item list-group-item-success">
+          <strong>Disponible:</strong> Oui
+        </li>
+        {% else %}
+        <li class="list-group-item list-group-item-danger">
+          <strong>Disponible:</strong> Non
+        </li>
+        {% endif %}
+      </ul>
+    </div>
   </div>
-  <a
-    href="{% url 'gest-cds' %}"
-    class="btn btn-primary btn-lg mt-1"
-    role="buttone"
-  >
-    Retourner
-  </a>
+  <div class="container-btn">
+    <a
+      href="{% url 'delete-cd' cd_detail.slug %}"
+      class="btn btn-danger btn-sm mt-1"
+      >Supprimer</a
+    >
+    <a
+      href="{% url 'update-cd' cd_detail.slug %}"
+      class="btn btn-warning btn-sm mt-1"
+      >Editer</a
+    >
+    <a
+      href="{% url 'gest-cds' %}"
+      class="btn btn-primary btn-sm mt-1"
+      role="buttone"
+    >
+      Retourner
+    </a>
+  </div>
 </section>
