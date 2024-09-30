@@ -1,48 +1,65 @@
 {% extends "base.html" %}
-
-{% block title %}
-    Dvd's
+{% load static %}
+{% block css_files %}
+	<link rel="stylesheet" href="{% static 'library/list_dvds.css' %}" />
 {% endblock %}
-
+{% block title %} Dvd's {% endblock %}
 {% block content %}
-    <section id="list-media">
-    <h1 class="text-center text-primary">Liste de Dvd's</h1>
-    <table class="table table-border table-striped ">
+
+<section id="dvds">
+  {% if error %}
+  <h1 class="text-danger">{{ error }}</h1>
+  {% else %}
+  <h1 class="text-center text-primary">Liste de DVDs</h1>
+  {% endif %}
+
+  <div class="list-dvds">
+    {% include "library/includes/filter_aside.html" %}
+
+    <div class="result-dvds">
+      <table class="table table-border table-striped">
         <thead class="thead-dark">
-            <tr>
-                <th>Titre</th>
-                <th>Auteur</th>
-                <th>Categorie</th>
-                <th>Note</th>
-            </tr>
+          <tr>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Note</th>
+            <th>Disponible</th>
+          </tr>
         </thead>
         <tbody>
-            {% for dvd in dvds %}
-                <tr>
-                    <td>
-                        <a href="{% url 'gest-dvd-detail' dvd.slug %}">
-                            {% if dvd.image and dvd.image.url %}
-                                <img src="{{ dvd.image.url }}" alt="Dvd Image" class="image-table">
-                            {% else %}
-                                <img src="{{ MEDIA_URL }}images/dvd-placeholder.jpg" alt="dvd Image Placeholder" class="image-table">
-                            {% endif %}
-                            {{ dvd.title }}
-                        </a>
-                    </td>
-                    <td>{{ dvd.director }}</td>
-                    <td>{{ dvd.category }}</td>
-                    <td>{{ dvd.rating }}/5</td>
-                </tr>
-            {% endfor %}
+          {% for dvd in dvds %}
+          <tr>
+            <td>
+              <a href="{% url 'gest-dvd-detail' dvd.slug %}">
+                {% if dvd.image and dvd.image.url %}
+                <img
+                  src="{{ dvd.image.url }}"
+                  alt="Dvd Image"
+                  class="image-table"
+                />
+                {% else %}
+                <img
+                  src="{{ MEDIA_URL }}images/dvd-placeholder.jpg"
+                  alt="dvd Image Placeholder"
+                  class="image-table"
+                />
+                {% endif %} {{ dvd.title }}
+              </a>
+            </td>
+            <td>{{ dvd.director }}</td>
+            <td>{{ dvd.rating }}/5</td>
+            {% if dvd.available %}
+            <td class="bg-success">Oui</td>
+            {% else %}
+            <td class="bg-danger">Non</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
         </tbody>
-    </table>
-    <div>
-        <a href="{% url 'home-library' %}" class="btn btn-primary btn-lg mt-1 mb-5" role="buttone">
-            Retourner
-        </a>
-        <a href="{% url 'create-dvd' %}" class="btn btn-primary btn-lg mt-1 mb-5" role="buttone">
-            Noveau Dvd
-        </a>
+      </table>
     </div>
+  </div>
+
+  {% include "library/includes/pagination.html" %}
 </section>
 {% endblock %}

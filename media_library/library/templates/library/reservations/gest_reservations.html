@@ -1,74 +1,199 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 
-{% block title %} Réservations {% endblock %} 
+{% load static %} 
+
+{% block css_files %}
+  <link rel="stylesheet" href="{% static 'library/list_reservations.css' %}" />
+{% endblock %} 
+
+{% block title %} Emprunts {% endblock %} 
 
 {% block content %}
-<h1 class="text-center">Liste de Réservations</h1>
-<table id="table-reservations" class="table table-border table-striped text-center">
-  <thead class="thead-dark">
-    <tr>
-      <th>Réserve ID</th>
-      <th>Membre</th>
-      <th>Médias</th>
-      <th>Date demande</th>
-      <th>Date limite de livraison</th>
-      <th>Date livraison</th>
-      <th>Retourné</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for reservation in reservations %}
-    <tr>
-      <td>
-        <a href="#"> {{ reservation.id }} </a>
-      </td>
-      <td>
-        <a href="{% url 'member-detail' reservation.member.id %}">{{ reservation.member }}</a>
-      </td>
-      <td>
-        <ul id="media-list-resevations">
-          {% for media in reservation.media_items %}
-            <li>{{ media }}</li>
+
+<section id="reservations">
+
+  {% if error %}
+  <h1 class="text-danger text-center">{{ error }}</h1>
+  {% else %}
+  <h1 class="text-center text-primary">Liste de emprunts</h1>
+  {% endif %}
+
+  <main class="list-reservations">
+    <aside class="search-block">
+      <form method="POST" action="{% url 'gest-reservations' %}">
+        {% csrf_token %}
+        <div class="search-block__title">
+          <h3 class="text-left w-100">Trier</h3>
+          <label class="text-left w-100" for="search_title">Recherche par membre</label>
+          <input
+            type="text"
+            name="search_member"
+            value=""
+            placeholder="Nom membre"
+          />
+          <button class="btn btn-success btn-sm" type="submit">
+            Recherche
+          </button>
+        </div>
+
+        <div class="search-block__filters">
+          <div>
+            <input 
+              type="checkbox" name="return_all"
+              id="return_all" 
+              {{ return_all }}
+            />
+            <label for="return_all"
+              >Tous les emprunts ({{ total_reservations }})</label
+            >
+          </div>
+
+          <div>
+            <input
+              type="checkbox"
+              name="return_completed"
+              id="return-completed"
+              {{ return_completed }}
+            />
+            <label for="return-completed"
+              >Retournés ({{ total_reservations_completed }})</label
+            >
+          </div>
+
+          <div>
+            <input 
+              type="checkbox"
+              name="return_active"
+              id="return-active"
+              {{ return_active }}
+            />
+            <label for="return-active"
+              >Non retournés ({{ total_reservations_active }})</label
+            >
+          </div>
+
+          <div>
+            <input 
+              type="checkbox"
+              name="asc_date"
+              id="asc-date" 
+              {{ asc_date }}
+            />
+            <label for="asc-date"
+              >Trier par date croissante</label
+            >
+          </div>
+
+          <div>
+            <input 
+              type="checkbox"
+              name="desc_date"
+              id="desc-date"
+              {{ desc_date }}
+            />
+            <label for="desc-date"
+              >Trier par date décroissante</label
+            >
+          </div>
+
+          <button class="btn btn-success btn-sm mt-3" type="submit">
+            Appliquer les filtres
+          </button>
+        </div>
+      </form>
+      <div>
+        <a
+          href="{% url 'home-library' %}"
+          class="btn btn-primary btn-sm mt-3 mb-5"
+          role="buttone"
+        >
+          Retourner
+        </a>
+        <a
+          href="{% url 'create-reservation' %}"
+          class="btn btn-primary btn-sm mt-3 mb-5"
+          role="buttone"
+        >
+          Noveau emprunt
+        </a>
+      </div>
+    </aside>
+
+    <section class="result-reservations">
+      <table
+        id="table-reservations"
+        class="table table-border table-striped text-center"
+      >
+        <thead class="thead-dark">
+          <tr>
+            <th>Réserve ID</th>
+            <th>Membre</th>
+            <th>Médias</th>
+            <th>Date demande</th>
+            <th>Date limite de livraison</th>
+            <th>Date livraison</th>
+            <th>Retourné</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for reservation in reservations %}
+          <tr>
+            <td>
+              <a href="#"> {{ reservation.id }} </a>
+            </td>
+            <td>
+              <a href="{% url 'member-detail' reservation.member.id %}"
+                >{{ reservation.member }}</a
+              >
+            </td>
+            <td>
+              <ul id="media-list-resevations">
+                {% for media in reservation.media_items %}
+                <li>{{ media }}</li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td>{{ reservation.date_requested }}</td>
+            <td class="bg-warning">{{ reservation.date_due }}</td>
+
+            {% if reservation.date_returned is none %}
+            <td class="text-center">-</td>
+            {% else %}
+            <td>{{ reservation.date_returned }}</td>
+            {% endif %} {% if reservation.returned %}
+            <td class="bg-success text-center">Oui</td>
+            {% else %}
+            <td class="bg-danger text-center">Non</td>
+            {% endif %}
+            <td>
+              <form method="POST" action="{% url 'gest-reservations' %}">
+                {% csrf_token %}
+                <input
+                  type="hidden"
+                  name="reservation_id"
+                  value="{{ reservation.id }}"
+                />
+                <button class="btn btn-warning btn-sm w-75" type="submit">
+                  Retourné
+                </button>
+                {%if reservation.returned %}
+                <a
+                  href="{% url 'delete-reservation' reservation.id %}"
+                  class="btn btn-danger btn-sm w-75 mt-1"
+                  >Delete</a
+                >
+                {% endif %}
+              </form>
+            </td>
+          </tr>
           {% endfor %}
-        </ul>
-      </td>
-      <td>{{ reservation.date_requested }}</td>
-      <td class='bg-warning'>{{ reservation.date_due }}</td>
+        </tbody>
+      </table>
+    </section>
+  </main>
 
-        {% if reservation.date_returned is none %}
-          <td class='text-center'>-</td>
-        {% else %}
-          <td>{{ reservation.date_returned }}</td>
-        {% endif %}
+  {% include "library/includes/pagination.html" %}
 
-        {% if reservation.returned %}
-          <td class='bg-success text-center'>Oui</td>
-        {% else %}
-          <td class='bg-danger text-center'>Non</td>
-        {% endif %}
-      <td>
-        <form method="post" action="{% url 'gest-reservations' %}">
-          {% csrf_token %}
-            <input type="hidden" name="reservation_id" value="{{ reservation.id }}">
-            <button class='btn btn-warning btn-sm' type="submit">Retourné</button>
-            <a href="{% url 'delete-reservation' reservation.id %}" class="btn btn-danger btn-sm">Delete</a>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<div>
-  <a
-    href="{% url 'home-library' %}"
-    class="btn btn-primary btn-lg mt-1"
-    role="buttone"
-  >
-    Retourner
-  </a>
-  <a href="{% url 'create-reservation' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
-    Nouvelle réservation
-  </a>
-</div>
-{% endblock %}
+</section>
+{% endblock%}

@@ -1,37 +1,99 @@
 {% extends "base.html" %}
-
-{% block title %}
-    Jeux de plateau 
+{% load static %}
+{% block title %} Jeux de plateau {% endblock %}
+{% block css_files %}
+	<link rel="stylesheet" href="{% static 'library/list_games.css' %}" />
 {% endblock %}
+{%block content %}
 
-{% block content %}
-    <h1 class="text-center">Liste de jeux de plateau </h1>
-    <table class="table table-border table-striped ">
+<section id="games">
+  {% if error %}
+  <h1 class="text-danger">{{ error }}</h1>
+  {% else %}
+  <h1 class="text-center text-primary">Liste de jeux de plateau</h1>
+  {% endif %}
+
+  <div class="list-games">
+    <aside class="search-block">
+      <form method="post" action="{% url 'gest-games'%}">
+        {% csrf_token %}
+        <div class="search-block__title">
+          <label for="search_name">Recherche par Nom</label>
+          <input type="text" name="search_name" placeholder="Nom" />
+          <button class="btn btn-success btn-sm" type="submit">
+            Recherche
+          </button>
+        </div>
+		<div class="search-block__filters">
+			<div>
+			  <input 
+				type="checkbox"
+				name="return_all"
+				id="return_all" 
+				{{ return_all }}
+			  />
+			  <label for="return_all">Tous ({{ total }})</label>
+			</div>
+
+			<button class="btn btn-success btn-sm mt-3" type="submit">
+				Appliquer les filtres
+			</button>
+		</div>
+
+      </form>
+      <div>
+        <a
+          href="{% url 'home-library' %}"
+          class="btn btn-primary btn-sm mt-3 mb-5"
+          role="buttone"
+        >
+          Retourner
+        </a>
+        <a
+          href="{% url 'create-game' %}"
+          class="btn btn-primary btn-sm mt-3 mb-5"
+          role="buttone"
+        >
+          Noveau
+        </a>
+      </div>
+    </aside>
+    <div class="result-games">
+      <table class="table table-border table-striped">
         <thead class="thead-dark">
-            <tr>
-                <th>Nom</th>
-                <th>Créateur</th>
-            </tr>
+          <tr>
+            <th>Nom</th>
+            <th>Créateur</th>
+          </tr>
         </thead>
         <tbody>
-            {% for board_game in board_games %}
-                <tr>
-                    <td>
-                        <a href="{% url 'gest-game-detail' board_game.slug %}">
-                            {{ board_game.name }}
-                        </a>
-                    </td>
-                    <td>{{ board_game.creator }}</td>
-                </tr>
-            {% endfor %}
+          {% for board_game in board_games %}
+          <tr>
+            <td>
+              <a href="{% url 'gest-game-detail' board_game.slug %}">
+                {% if board_game.image and board_game.image.url %}
+                <img
+                  src="{{ board_game.image.url }}"
+                  alt="Game Image"
+                  class="image-table"
+                />
+                {% else %}
+                <img
+                  src="{{ MEDIA_URL }}images/games-placeholder.jpg"
+                  alt="Game Image Placeholder"
+                  class="image-table"
+                />
+                {% endif %} {{ board_game.name }}
+              </a>
+            </td>
+            <td>{{ board_game.creator }}</td>
+          </tr>
+          {% endfor %}
         </tbody>
-    </table>
-    <div>
-        <a href="{% url 'home-library' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
-            Retourner
-        </a>
-        <a href="{% url 'create-game' %}" class="btn btn-primary btn-lg mt-1" role="buttone">
-            Noveau jeu
-        </a>
+      </table>
     </div>
+  </div>
+  {% include "library/includes/pagination.html" %}
+</section>
+
 {% endblock %}

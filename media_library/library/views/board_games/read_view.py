@@ -13,6 +13,40 @@ class BoardGamesView(LoginRequiredMixin,ListView):
     context_object_name = "board_games"
     paginate_by = 10
 
+    error = None
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        
+        # Get POST parameters if any
+        search_name = self.request.POST.get('search_name','').strip()
+
+        # Apply filters based on POST data
+        if search_name:
+            queryset = queryset.filter(name__icontains=search_name)
+            if queryset.count() == 0:
+                self.error = "Aucun Jeux ne correspond à votre recherche."
+
+        return queryset
+
+    def get_context_data(self, **kwargs):    
+        context = super().get_context_data(**kwargs)
+        
+        games = BoardGame.objects.all()
+        context["total"] = games.count()
+        context["error"] = self.error
+        context["return_all"] = 'checked' if self.request.POST.get('return_all') else ''
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handles a POST request to filter books.
+
+        Reuses the get method for filtering logic.
+        """
+        return self.get(request, *args, **kwargs)
+
 class BoardGameDetailView(LoginRequiredMixin, DetailView):
     model = BoardGame
     template_name = "library/gest_media.html"

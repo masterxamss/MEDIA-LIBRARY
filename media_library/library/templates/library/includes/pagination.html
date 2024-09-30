@@ -1,0 +1,17 @@
+<div class="pagination">
+    <span class="step-links d-flex flex-row mb-5">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="page-link">&laquo; première </a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">précédent</a>
+        {% endif %}
+
+        <span class="page-link">
+            Page {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="page-link">suivant</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">dernier &raquo;</a>
+        {% endif %}
+    </span>
+</div>
