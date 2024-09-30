@@ -1,62 +1,64 @@
-{% extends "base.html" %} {% block title %} Cd's {% endblock %} 
-{% block content %}
-<section id="list-media">
-  <h1 class="text-center text-primary">Liste de Cd's</h1>
-  <table class="table table-border table-striped">
-    <thead class="thead-dark">
-      <tr>
-        <th>Titre</th>
-        <th>Artiste</th>
-        <th>Genre</th>
-        <th>Disponible</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for cd in cds %}
-      <tr>
-        <td>
-          <a href="{% url 'gest-cd-detail' cd.slug %}">
-            {% if cd.image and cd.image.url %}
-            <img src="{{ cd.image.url }}" alt="Cd Image" class="image-table" />
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Cd's {% endblock %}
+{% block css_files %}
+	<link rel="stylesheet" href="{% static 'library/list_cds.css' %}" />
+{% endblock %}
+{% block content%}
+
+<section id="cds">
+  {% if error %}
+  <h1 class="text-danger">{{ error }}</h1>
+  {% else %}
+  <h1 class="text-center text-primary">Liste de CDs</h1>
+  {% endif %}
+
+  <div class="list-cds">
+    {% include "library/includes/filter_aside.html" %}
+
+    <div class="result-cds">
+      <table class="table table-border table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>Titre</th>
+            <th>Artiste</th>
+            <th>Genre</th>
+            <th>Disponible</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cd in cds %}
+          <tr>
+            <td>
+              <a href="{% url 'gest-cd-detail' cd.slug %}">
+                {% if cd.image and cd.image.url %}
+                <img
+                  src="{{ cd.image.url }}"
+                  alt="Cd Image"
+                  class="image-table"
+                />
+                {% else %}
+                <img
+                  src="{{ MEDIA_URL }}images/cd-placeholder.jpg"
+                  alt="Cd Image Placeholder"
+                  class="image-table"
+                />
+                {% endif %} {{ cd.title }}
+              </a>
+            </td>
+            <td>{{ cd.artist }}</td>
+            <td>{{ cd.genre }}</td>
+            {% if cd.available %}
+            <td class="bg-success">Oui</td>
             {% else %}
-            <img
-              src="{{ MEDIA_URL }}images/cd-placeholder.jpg"
-              alt="Cd Image Placeholder"
-              class="image-table"
-            />
-            {% endif %} {{ cd.title }}
-          </a>
-        </td>
-        <td>{{ cd.artist }}</td>
-        <td>{{ cd.genre }}</td>
-        {% if cd.available %}
-        <td>
-          <strong class="text-success">Oui</strong>
-        </td>
-        {% else %}
-        <td>
-          <strong class="text-danger">Non</strong>
-        </td>
-        {% endif %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <div>
-    <a
-      href="{% url 'home-library' %}"
-      class="btn btn-primary btn-lg mt-1 mb-5"
-      role="buttone"
-    >
-      Retourner
-    </a>
-    <a
-      href="{% url 'create-cd' %}"
-      class="btn btn-primary btn-lg mt-1 mb-5"
-      role="buttone"
-    >
-      Noveau Cd
-    </a>
+            <td class="bg-danger">Non</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
+  {% include "library/includes/pagination.html" %}
 </section>
 {% endblock %}

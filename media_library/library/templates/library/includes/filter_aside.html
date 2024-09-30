@@ -1,0 +1,87 @@
+<aside class="search-block">
+    <form method="post" action="
+        {% if dvds %}
+            {% url 'gest-dvds' %} 
+        {% elif books %}
+            {% url 'gest-books' %} 
+        {% elif cds %}
+            {% url 'gest-cds' %} 
+        {% endif %}"
+    >
+      {% csrf_token %}
+      <div class="search-block__title">
+        <label for="search_title">Recherche par titre</label>
+        <input
+          type="text"
+          name="search_title"
+          placeholder="Titre"
+        />
+        <button class="btn btn-success btn-sm" type="submit">
+          Recherche
+        </button>
+      </div>
+
+      <div class="search-block__filters">
+        <div>
+          <input 
+            type="checkbox"
+            name="return_all"
+            id="return_all" 
+            {{ return_all }}
+          />
+          <label for="return_all">Tous ({{ total }})</label>
+        </div>
+
+        <div>
+          <input
+            type="checkbox"
+            name="return_availables"
+            id="return_availables"
+            {{ return_availables }}
+          />
+          <label for="return_availables"
+            >Disponibles ({{ total_availables }})</label
+          >
+        </div>
+
+        <div>
+          <input
+            type="checkbox"
+            name="return_unavailables"
+            id="return_unavailable"
+            {{ return_unavailables }}
+          />
+          <label for="return_unavailables"
+            >Indisponibles ({{ total_unavailables }})</label
+          >
+        </div>
+
+        <button class="btn btn-success btn-sm mt-3" type="submit">
+          Appliquer les filtres
+        </button>
+      </div>
+    </form>
+    <div>
+      <a
+        href="{% url 'home-library' %}"
+        class="btn btn-primary btn-sm mt-3 mb-5"
+        role="buttone"
+      >
+        Retourner
+      </a>
+      <a
+        href="
+        {% if dvds %}
+            {% url 'create-dvd' %} 
+        {% elif books %}
+            {% url 'create-book' %} 
+        {% elif cds %}
+            {% url 'create-cd' %} 
+        {% endif %}"
+        class="btn btn-primary btn-sm mt-3 mb-5"
+        role="buttone"
+      >
+        Noveau
+      </a>
+    </div>
+  </aside>

@@ -1,31 +1,47 @@
 <section class="d-flex flex-column justify-content-center w-75">
-  <h1 class="text-center">{{ game_detail.name }}</h1>
-
-  {% if game_detail.image and game_detail.image.url %}
-    <img src="{{ game_detail.image.url }}" alt="Table game Image">
-  {% else %}
-    <img src="{{ MEDIA_URL }}images/games-placeholder.jpg" alt="Table game Placeholder">
-  {% endif %}
-
-  <ul class="list-group">
-    <li class="list-group-item list-group-item-dark">
-      <strong>Nom:</strong>
-      {{ game_detail.name }}
-    </li>
-    <li class="list-group-item list-group-item-dark">
-      <strong>Createur:</strong>
-      {{ game_detail.creator }}
-    </li>
-  </ul>
-  <div>
-    <a href="{% url 'delete-game' game_detail.slug %}" class="btn btn-danger btn-sm mt-1">Supprimer</a>
-    <a href="{% url 'update-game' game_detail.slug %}" class="btn btn-warning btn-sm mt-1">Editer</a>
+  <h1 class="text-center text-primary">{{ game_detail.name }}</h1>
+  <div class="content">
+    <div class="image-container">
+      {% if game_detail.image and game_detail.image.url %}
+      <img src="{{ game_detail.image.url }}" alt="Table game Image" />
+      {% else %}
+      <img
+        src="{{ MEDIA_URL }}images/games-placeholder.jpg"
+        alt="Table game Placeholder"
+      />
+      {% endif %}
+    </div>
+    <div id="media-details">
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-light">
+          <strong>Nom:</strong>
+          {{ game_detail.name }}
+        </li>
+        <li class="list-group-item list-group-item-light">
+          <strong>Createur:</strong>
+          {{ game_detail.creator }}
+        </li>
+      </ul>
+    </div>
   </div>
-  <a
-    href="{% url 'gest-games' %}"
-    class="btn btn-primary btn-lg mt-1"
-    role="buttone"
-  >
-    Retourner
-  </a>
+
+  <div class="container-btn">
+    <a
+      href="{% url 'delete-game' game_detail.slug %}"
+      class="btn btn-danger btn-sm mt-1"
+      >Supprimer</a
+    >
+    <a
+      href="{% url 'update-game' game_detail.slug %}"
+      class="btn btn-warning btn-sm mt-1"
+      >Editer</a
+    >
+    <a
+      href="{% url 'gest-games' %}"
+      class="btn btn-primary btn-sm mt-1"
+      role="buttone"
+    >
+      Retourner
+    </a>
+  </div>
 </section>

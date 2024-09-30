@@ -1,5 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %} Livres {% endblock %}
+{% block css_files %}
+	<link rel="stylesheet" href="{% static 'library/list_books.css' %}" />
+{% endblock %}
 {% block content %}
 
 <section id="books">
@@ -10,72 +14,7 @@
   {% endif %}
 
   <div class="list-books">
-    <aside class="search-block">
-      <form method="post" action="{% url 'gest-books' %}">
-        {% csrf_token %}
-        <div class="search-block__title">
-          <label for="search_title">Recherche par titre</label>
-          <input
-            type="text"
-            name="search_title"
-            value="{{ book.title }}"
-            placeholder="Titre"
-          />
-          <button class="btn btn-success btn-sm" type="submit">
-            Recherche
-          </button>
-        </div>
-
-        <div class="search-block__filters">
-          <div>
-            <input type="checkbox" name="return_all" id="return_all" />
-            <label for="return_all">Tous les livres ({{ total_books }})</label>
-          </div>
-
-          <div>
-            <input
-              type="checkbox"
-              name="return_availables"
-              id="return_availables"
-            />
-            <label for="return_availables"
-              >Disponibles ({{ total_books_availables }})</label
-            >
-          </div>
-
-          <div>
-            <input
-              type="checkbox"
-              name="return_unavailables"
-              id="return_unavailable"
-            />
-            <label for="return_unavailables"
-              >Indisponibles ({{ total_books_unavailables }})</label
-            >
-          </div>
-
-          <button class="btn btn-success btn-sm mt-3" type="submit">
-            Appliquer les filtres
-          </button>
-        </div>
-      </form>
-      <div>
-        <a
-          href="{% url 'home-library' %}"
-          class="btn btn-primary btn-sm mt-3 mb-5"
-          role="buttone"
-        >
-          Retourner
-        </a>
-        <a
-          href="{% url 'create-book' %}"
-          class="btn btn-primary btn-sm mt-3 mb-5"
-          role="buttone"
-        >
-          Noveau Livre
-        </a>
-      </div>
-    </aside>
+    {% include "library/includes/filter_aside.html" %}
 
     <div class="result-books">
       <table class="table table-border table-striped">
@@ -120,23 +59,7 @@
         </tbody>
       </table>
     </div>
-  </div> 
-
-  <div class="pagination">
-    <span class="step-links d-flex flex-row mb-5">
-        {% if page_obj.has_previous %}
-            <a href="?page=1" class="page-link">&laquo; première </a>
-            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">précédent</a>
-        {% endif %}
-
-        <span class="page-link">
-            Page {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="page-link">suivant</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">dernier &raquo;</a>
-        {% endif %}
-    </span>
+  </div>
+  {% include "library/includes/pagination.html" %}
 </section>
 {% endblock %}

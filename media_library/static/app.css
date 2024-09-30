@@ -77,21 +77,6 @@ section .content{
     margin-left: 1rem;
 }
 
-#books{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.list-books{
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    width:100%;
-    background-color: #fff;
-}
-
 .search-block{
     display: flex;
     flex-direction: column;
@@ -121,14 +106,6 @@ section .content{
     width: 100%;
 }
 
-.search-block__title label{
-    font-weight: bold;
-    font-size: 1.5rem;
-    color: rgb(33, 33, 33);
-    text-align: left;
-    width:100%;
-}
-
 .search-block__filters{
     margin-top: 1rem;
     width: 100%;
@@ -152,13 +129,6 @@ section .content{
     width: 20px;
 }
 
-.result-books{
-    width:80%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #fff;
-}
 
 
 
