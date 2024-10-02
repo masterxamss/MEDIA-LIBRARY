@@ -16,10 +16,21 @@
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark fixed-top justify-content-between">
         <a href="{% url 'index' %}" class="navbar-brand"> Home </a>
-
         <div class="object-fit-none" id="navbarNav">
           <ul class="navbar-nav">
             {% if not request.user.is_authenticated%}
+              <li class="nav-item">
+                <a href="{% url 'books' %}" class="nav-link">Livres</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'cds' %}" class="nav-link">Cd's</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'dvds' %}" class="nav-link">Dvd's</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'board_games' %}" class="nav-link">Jeux de plateau</a>
+              </li>
               <li class="nav-item">
                 <a href="{% url 'home-library' %}" class="nav-link">[ Admin ]</a>
               </li>
@@ -32,9 +43,15 @@
         </div>
       </nav>
     </header>
+
     <main class="">
         {% block content %}{% endblock %}
     </main>
+
+    <footer class="bg-dark text-white">
+      <p>« Notre livre, notre média »</p>
+    </footer>
+    
     <script
       src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
       integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="

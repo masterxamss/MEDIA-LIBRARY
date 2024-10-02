@@ -5,6 +5,7 @@ class BoardGame(models.Model):
     creator = models.CharField(max_length=200, null=False)
     slug = models.SlugField(default="", null=False, blank=True, db_index=True, unique=True)
     image = models.ImageField(upload_to="images", null=False, blank=True)
+    description = models.TextField(max_length=2000, null=True, default="", blank=True)
 
     def __str__(self):
         return self.name

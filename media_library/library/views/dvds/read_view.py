@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 from library.models import Dvd
 
 
-class DvdView(LoginRequiredMixin,ListView):
+class DvdView(ListView):
     template_name = "library/dvds/gest_dvds.html"
     model = Dvd
     ordering = ["title"]
@@ -60,6 +60,7 @@ class DvdView(LoginRequiredMixin,ListView):
         context["return_all"] = 'checked' if self.request.POST.get('return_all') else ''
         context["return_availables"] = 'checked' if self.request.POST.get('return_availables') else ''
         context["return_unavailables"] = 'checked' if self.request.POST.get('return_unavailables') else ''
+        context["user"] = self.request.user
 
         return context
         
@@ -72,7 +73,7 @@ class DvdView(LoginRequiredMixin,ListView):
         return self.get(request, *args, **kwargs)
 
 
-class DvdDetailView(LoginRequiredMixin, DetailView):
+class DvdDetailView(DetailView):
     model = Dvd
     template_name = "library/gest_media.html"
     slug_field = 'slug'

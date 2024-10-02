@@ -1,12 +1,14 @@
 body{
-    padding-top: 56px;
+    margin-top: 50px;
 }
 
 main{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding-top: 2rem;
+    min-height: calc(100vh - 150px);
 }
 
 .navbar{
@@ -127,6 +129,14 @@ section .content{
 
 .search-block__filters div input{
     width: 20px;
+}
+
+footer{
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 

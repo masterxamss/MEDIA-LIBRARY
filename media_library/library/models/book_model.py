@@ -25,7 +25,7 @@ class Book(Media):
         Returns:
             str: The title and author of the book.
         """
-        return f'{self.title} - {self.author}'
+        return f'LIVRE: {self.title}'
     
     def update_book_available(book_id):
         """

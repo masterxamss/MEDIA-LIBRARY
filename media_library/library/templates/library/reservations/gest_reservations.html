@@ -150,7 +150,9 @@
             <td>
               <ul id="media-list-resevations">
                 {% for media in reservation.media_items %}
-                <li>{{ media }}</li>
+                <li>
+                  {{ media }}
+                </li>
                 {% endfor %}
               </ul>
             </td>
@@ -174,7 +176,7 @@
                   name="reservation_id"
                   value="{{ reservation.id }}"
                 />
-                <button class="btn btn-warning btn-sm w-75" type="submit">
+                <button class="btn btn-warning btn-sm w-75 p-1" type="submit">
                   Retourné
                 </button>
                 {%if reservation.returned %}

@@ -139,7 +139,6 @@ class ReservationsView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         reservations = MediaReservations.objects.all()
-
         for reservation in context['reservations']:
             reservation.media_items = reservation.get_media_items()
 

@@ -1,52 +1,117 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %} Membres {% endblock %} 
+{% block css_files %}
+	<link rel="stylesheet" href="{% static 'library/list_members.css' %}" />
+{% endblock %}
 {% block content %}
-<h1 class="text-center">Liste de membres</h1>
-<table class="table table-border table-striped">
-  <thead class="thead-dark">
-    <tr>
-      <th>Nom</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Bloqué</th>
-    </tr>
-  </thead>
+
+
+<section id="members">
+  {% if error %}
+  <h1 class="text-danger">{{ error }}</h1>
+  {% else %}
+  <h1 class="text-center text-primary">Liste de membres</h1>
+  {% endif %}
+
+  <div class="list-members">
+
+    <aside class="search-block">
+      <form method="post" action="{% url 'gest-members' %}">
+        {% csrf_token %}
+        <div class="search-block__title">
+          <h3 class="text-left w-100">Trier</h3>
+          <label class="text-left w-100" for="search_name">Recherche par Nom</label>
+          <input
+            type="text"
+            name="search_name"
+            placeholder="Nom"
+          />
+          <button class="btn btn-success btn-sm" type="submit">
+            Recherche
+          </button>
+        </div>
   
-  <tbody>
-    {% for member in members %}
-    <tr>
-      <td>
-        <a href="{% url 'member-detail' member.id %}">{{ member.last_name }} {{ member.first_name }}</a>
-      </td>
-      <td>{{ member.email }}</td>
-      <td>{{ member.phone }}</td>
-      {% if member.blocked %}
-      <td class="bg-danger">
-        Oui
-      </td>
-      {% else %}
-      <td class="bg-success">
-        Non
-      </td>
-      {% endif%}
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<div>
-  <a
-    href="{% url 'home-library' %}"
-    class="btn btn-primary btn-lg mt-1"
-    role="buttone"
-  >
-    Retourner
-  </a>
-  <a
-    href="{% url 'create-member'%}"
-    class="btn btn-primary btn-lg mt-1"
-    role="buttone"
-  >
-    Noveau membre
-  </a>
-</div>
+        <div class="search-block__filters">
+          <div>
+            <input 
+              type="checkbox"
+              name="return_all"
+              id="return_all" 
+              {{ return_all }}
+            />
+            <label for="return_all">Tous ({{ total }})</label>
+          </div>
+  
+          <div>
+            <input
+              type="checkbox"
+              name="return_blocked"
+              id="return_blocked"
+              {{ return_blocked }}
+            />
+            <label for="return_blocked"
+              >Bloqués ({{ total_blocked }})</label
+            >
+          </div>
+
+          <button class="btn btn-success btn-sm mt-3" type="submit">
+            Appliquer les filtres
+          </button>
+        </div>
+      </form>
+      <div>
+        <a
+          href="{% url 'home-library' %}"
+          class="btn btn-primary btn-sm mt-3 mb-5"
+          role="buttone"
+        >
+          Retourner
+        </a>
+        <a
+          href="{% url 'create-member' %}"
+          class="btn btn-primary btn-sm mt-3 mb-5"
+          role="buttone"
+        >
+          Noveau
+        </a>
+      </div>
+    </aside>
+
+    <div class="result-members">
+      <table class="table table-border table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Bloqué</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          {% for member in members %}
+          <tr>
+            <td>
+              <a href="{% url 'member-detail' member.id %}">{{ member.last_name }} {{ member.first_name }}</a>
+            </td>
+            <td>{{ member.email }}</td>
+            <td>{{ member.phone }}</td>
+            {% if member.blocked %}
+            <td class="bg-danger">
+              Oui
+            </td>
+            {% else %}
+            <td class="bg-success">
+              Non
+            </td>
+            {% endif%}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% include "library/includes/pagination.html" %}
+</section>
 {% endblock %}

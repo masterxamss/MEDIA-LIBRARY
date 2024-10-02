@@ -16,7 +16,7 @@ class Dvd(Media):
 
 
     def __str__(self):
-        return f'{self.title} - {self.director}'
+        return f'DVD: {self.title}'
     
     def update_dvd_available(dvd_id):
         """

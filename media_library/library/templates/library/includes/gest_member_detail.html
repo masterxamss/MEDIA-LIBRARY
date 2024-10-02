@@ -1,35 +1,36 @@
 <section class="d-flex flex-column justify-content-center w-75">
     <h1 class="text-center">{{ member_detail.first_name }} {{ member_detail.last_name }}</h1>
+
     <ul class="list-group p-0">
-      <li class="list-group-item list-group-item-dark">
+      <li class="list-group-item list-group-item-light">
         <strong>ID:</strong>
         {{ member_detail.id }}
       </li>
-      <li class="list-group-item list-group-item-dark">
+      <li class="list-group-item list-group-item-light">
         <strong>Nom:</strong>
         {{ member_detail.last_name }}
       </li>
-      <li class="list-group-item list-group-item-dark">
+      <li class="list-group-item list-group-item-light">
         <strong>Prénom:</strong>
         {{ member_detail.first_name }}
       </li>
-      <li class="list-group-item list-group-item-dark">
+      <li class="list-group-item list-group-item-light">
         <strong>Email:</strong>
         {{ member_detail.email }}
       </li>
-      <li class="list-group-item list-group-item-dark">
+      <li class="list-group-item list-group-item-light">
         <strong>Telephone:</strong>
         {{ member_detail.phone }}
       </li>
-      <li class="list-group-item list-group-item-dark">
+      <li class="list-group-item list-group-item-light">
         <strong>Rue:</strong>
         {{ member_detail.street }}
       </li>
-      <li class="list-group-item list-group-item-dark">
+      <li class="list-group-item list-group-item-light">
         <strong>Code Postal</strong>
         {{ member_detail.postal_code }}
       </li>
-      <li class="list-group-item list-group-item-dark">
+      <li class="list-group-item list-group-item-light">
         <strong>Ville:</strong>
         {{ member_detail.city }}
       </li>
@@ -43,15 +44,15 @@
       </li>
       {% endif %}
     </ul>
-    <div>
+    <div class="container-btn">
         <a href="{% url 'delete-member' member_detail.id %}" class="btn btn-danger btn-sm mt-1">Suprimer</a>
         <a href="{% url 'update-member' member_detail.id %}" class="btn btn-warning btn-sm mt-1">Editer</a>
+        <a
+        href="{% url 'gest-members' %}"
+        class="btn btn-primary btn-sm mt-1"
+        role="buttone"
+      >
+        Retourner
+      </a>
     </div>
-    <a
-      href="{% url 'gest-members' %}"
-      class="btn btn-primary btn-lg mt-1"
-      role="buttone"
-    >
-      Retourner
-    </a>
   </section>

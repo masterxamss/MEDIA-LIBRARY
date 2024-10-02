@@ -1,0 +1,113 @@
+#medias{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.jumbotron{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.jumbotron form{
+    width: 70%;
+    display: flex;
+    margin-top: 2rem;
+}
+
+.jumbotron form div{
+    display: flex;
+    width: 100%;
+}
+
+.jumbotron form div input{
+    width: 80%;
+    height: 3rem;
+    border: 1px solid #ccc;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border-right: 0px;
+    padding: 0 10px;
+}
+
+.jumbotron form div input:focus{
+    outline: none;
+}
+
+.jumbotron form div button{
+    width: 20%;
+    border: 1px solid #007bff;
+    border-bottom-right-radius:  10px;
+    border-top-right-radius: 10px;
+    border-left: 0px;
+    background-color: #007bff;
+    color: white;
+}
+
+.jumbotron form button:hover{
+    background-color: #055bb6;
+}
+
+
+.filters{
+    width: 60%;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    background-color: #e9ecef;
+    border-radius: 5px;
+}
+
+.filters form{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filters form div label{
+    margin:0 .5rem;
+}
+
+.filters form div input{
+    width: 20px;
+}
+
+.filters form div button{
+    width: 60px;
+}
+
+.media-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 60%;
+    gap: 10px;
+}
+
+.media {
+    width: calc(20% - 10px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.media a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.media-image img{
+    width: 100%;
+}

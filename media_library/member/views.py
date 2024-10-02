@@ -1,81 +1,85 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
+from django.core.paginator import Paginator
 from django.views.generic import ListView
-
+from itertools import chain
+from django.db.models import Q
 from library.models import Book, Cd, Dvd, BoardGame
 
-
-
-def home_member_view(request):
-    return render(request, 'member/index.html')
-
-
-# -----------------------------------------------------------
-# BOOKS VIEWS
-# -----------------------------------------------------------
-class MemberBooksView(ListView):
-    template_name = "member/books.html"
-    model = Book
-    ordering = ["title"]
-    context_object_name = "books"
+class MediaListView(ListView):
+    template_name = 'member/index.html'
+    context_object_name = 'media_list'
     paginate_by = 10
 
+    total_medias = 0
 
-def MemberBookDetail(request, slug):
-    identified_media = get_object_or_404(Book, slug=slug)
-    return render(request, "member/media_detail.html", {
-        "book_detail": identified_media
-    })
+    def get_queryset(self):
 
+        books = Book.objects.all()
+        cds = Cd.objects.all()
+        dvds = Dvd.objects.all()
+        boardgames = BoardGame.objects.all()
 
-# -----------------------------------------------------------
-# CDS VIEWS
-# -----------------------------------------------------------
-class CdsView(ListView):
-    template_name = "member/cds.html"
-    model = Cd
-    ordering = ["title"]
-    context_object_name = "cds"
-    paginate_by = 10
+        combined_queryset = list(chain(books, cds, dvds, boardgames))
 
+        self.total_medias = len(combined_queryset)
+        
+        search_query = self.request.GET.get('search', '').strip()
+        books_query = self.request.GET.get('return_books')
+        cds_query = self.request.GET.get('return_cds')
+        dvds_query = self.request.GET.get('return_dvds')
+        boardGames_query = self.request.GET.get('return_games')
 
-def cd_detail(request, slug):
-    identified_media = get_object_or_404(Cd, slug=slug)
-    return render(request, "member/media_detail.html", {
-        "cd_detail": identified_media
-    })
+        if search_query:
+            books = Book.objects.filter(Q(title__icontains=search_query))
+            cds = Cd.objects.filter(Q(title__icontains=search_query))
+            dvds = Dvd.objects.filter(Q(title__icontains=search_query))
+            boardgames = BoardGame.objects.filter(Q(name__icontains=search_query))
+            combined_queryset = list(chain(books, cds, dvds, boardgames))
+        if books_query:
+            books = Book.objects.all()
+            combined_queryset = books
+        if cds_query:
+            cds = Cd.objects.all()
+            combined_queryset = cds
+        if dvds_query:
+            dvds = Dvd.objects.all()
+            combined_queryset = dvds
+        if boardGames_query:
+            boardgames = BoardGame.objects.all()
+            combined_queryset = boardgames
+        
+        for item in combined_queryset:
+            item.media_type = item.__class__.__name__
 
-
-# -----------------------------------------------------------
-# DVDS VIEWS
-# -----------------------------------------------------------
-class DvdsView(ListView):
-    template_name = "member/dvds.html"
-    model = Dvd
-    ordering = ["title"]
-    context_object_name = "dvds"
-    paginate_by = 10
-
-
-def dvd_detail(request, slug):
-    identified_media = get_object_or_404(Dvd, slug=slug)
-    return render(request, "member/media_detail.html", {
-        "dvd_detail": identified_media,
-    })
-
-
-# -----------------------------------------------------------
-# BOARD GAMES VIEWS
-# -----------------------------------------------------------
-class BoardGamesView(ListView):
-    template_name = "member/board_games.html"
-    model = BoardGame
-    ordering = ["name"]
-    context_object_name = "board_games"
-    paginate_by = 10
+        return combined_queryset
 
 
-def board_game_detail(request, slug):
-    identified_media = get_object_or_404(BoardGame, slug=slug)
-    return render(request, "member/media_detail.html", {
-        "game_detail": identified_media,
-    })
+    def get_context_data(self, **kwargs):
+        # Adiciona o combined_queryset ao contexto
+        context = super().get_context_data(**kwargs)
+        combined_queryset = self.get_queryset()
+        
+        # Pagina o queryset combinado
+        paginator = Paginator(combined_queryset, self.paginate_by)  # Aplica paginação
+        page = self.request.GET.get('page')
+
+        # Obtenha a página atual de itens paginados
+        media_list = paginator.get_page(page)
+        
+        # Adiciona ao contexto
+        context['media_list'] = media_list  # Adiciona ao contexto
+        context['total_medias'] = self.total_medias
+        context['total_books'] = Book.objects.count()
+        context['total_cds'] = Cd.objects.count()
+        context['total_dvds'] = Dvd.objects.count()
+        context['total_games'] = BoardGame.objects.count()
+        context['return_all'] = 'checked' if self.request.GET.get('return_all') else ''
+        context['return_books'] = 'checked' if self.request.GET.get('return_books') else ''
+        context['return_cds'] = 'checked' if self.request.GET.get('return_cds') else ''
+        context['return_dvds'] = 'checked' if self.request.GET.get('return_dvds') else ''
+        context['return_games'] = 'checked' if self.request.GET.get('return_games') else ''
+
+
+        return context
+# def home_member_view(request):
+#     return render(request, 'member/index.html')

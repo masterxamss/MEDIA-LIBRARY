@@ -1,27 +1,157 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
     Accueil
 {% endblock %}
 
+{% block css_files %}
+	<link rel="stylesheet" href="{% static 'member/index.css' %}" />
+{% endblock %}
+
 {% block content %}
-    <div class="jumbotron text-center">
-        <h1 class="display 4">Bienvenue a la médiathèque « Notre livre, notre média »</h1>
-        <p class="lead">Voir nos médias disponibles</p>
-        <hr class="my-4">
-        <h2 class="display-3"></h2>
-        <p>Utilisez les boutons pour choisir votre type de média</p>
-        <a href="{% url 'books' %}" class="btn btn-primary btn-lg" role="buttone">
-            Livres
-        </a>
-        <a href="{% url 'cds' %}" class="btn btn-primary btn-lg" role="buttone">
-            Cd's
-        </a>
-        <a href="{% url 'dvds' %}" class="btn btn-primary btn-lg" role="buttone">
-            Dvd's
-        </a>
-        <a href="{% url 'board_games' %}" class="btn btn-primary btn-lg" role="buttone">
-            Jeux de plateau
-        </a>
-    </div>
+    
+    <section id="medias">
+        <section class="jumbotron text-center">
+            <h1 class="display 4">Bienvenue a la médiathèque « Notre livre, notre média »</h1>
+            <p class="lead">Voir nos médias disponibles</p>
+            <form method="GET" action="{% url 'index' %}">
+                {% csrf_token %}
+                <div>
+                    <input
+                    type="text"
+                    name="search"
+                    placeholder="Rechercher un livre, un CD, un DVD..."
+                    />
+                    <button class="" type="submit">
+                    Recherche
+                    </button>    
+                </div>
+            </form>
+        </section>
+
+        <section class="filters">
+            <form method="GET" action="{% url 'index' %}">
+                {% csrf_token %}
+                <div>
+                    <input 
+                    type="checkbox"
+                    name="return_all"
+                    id="return_all" 
+                    {{ return_all }}
+                    />
+                    <label for="return_all">Tous ({{ total_medias }})</label>
+                </div>
+                <div>
+                    <input 
+                    type="checkbox"
+                    name="return_books"
+                    id="return_books" 
+                    {{ return_books }}
+                    />
+                    <label for="return_books">Livres ({{ total_books }})</label>
+                </div>
+                <div>
+                    <input 
+                    type="checkbox"
+                    name="return_cds"
+                    id="return_cds" 
+                    {{ return_cds }}
+                    />
+                    <label for="return_cds">CDs ({{ total_cds }})</label>
+                </div>
+                <div>
+                    <input 
+                    type="checkbox"
+                    name="return_dvds"
+                    id="return_dvds" 
+                    {{ return_dvds }}
+                    />
+                    <label for="return_dvds">DVDs ({{ total_dvds }})</label>
+                </div>
+                <div>
+                    <input 
+                    type="checkbox"
+                    name="return_games"
+                    id="return_games" 
+                    {{ return_games }}
+                    />
+                    <label for="return_games">Jeux de plateau ({{ total_games }})</label>
+                </div>
+                <div>
+                    <button class="btn btn-success btn-sm" type="submit">
+                        Trier
+                    </button>
+                </div>
+                </div>
+            </form>
+        </section>
+
+        <section class="media-container">
+            {% for media in media_list %}
+            <article class="media">
+                <a href="
+                    {% if media.media_type == 'Book'%}
+                        {% url 'gest-book-detail' media.slug %}
+                    {% elif media.media_type == 'Cd'%}
+                        {% url 'gest-cd-detail' media.slug %}
+                    {% elif media.media_type == 'Dvd'%}
+                        {% url 'gest-dvd-detail' media.slug %}
+                    {% elif media.media_type == 'BoardGame'%}
+                        {% url 'gest-game-detail' media.slug %}
+                    {% endif %}
+                    ">
+                    <div class="media-image">
+                        {% if media.image and media.image.url %}
+                        <img
+                        src="{{ media.image.url }}"
+                        alt="Media Image"
+                        class="media-image"
+                        />
+                        {% else %}
+                            {% if media.media_type == 'Book' %}
+                            <img
+                            src="{{ MEDIA_URL }}images/book-placeholder.jpg"
+                            alt="Media Image Placeholder"
+                            class="media-image"
+                            />
+                            {% elif media.media_type == 'Cd' %}
+                            <img
+                            src="{{ MEDIA_URL }}images/cd-placeholder.jpg"
+                            alt="Media Image Placeholder"
+                            class="media-image"
+                            />
+                            {% elif media.media_type == 'Dvd' %}
+                            <img
+                            src="{{ MEDIA_URL }}images/dvd-placeholder.jpg"
+                            alt="Media Image Placeholder"
+                            class="media-image"
+                            />
+                            {% elif media.media_type == 'BoardGame' %}
+                            <img
+                            src="{{ MEDIA_URL }}images/games-placeholder.jpg"
+                            alt="Media Image Placeholder"
+                            class="media-image"
+                            />
+                            {% endif %}
+                        {% endif %} 
+                    </div>
+                    <div class="media-title">
+                        <p class="media-title">
+                            {% if media.media_type == 'BoardGame' %}
+                                {{ media.name }}
+                            {% else %}
+                                {{ media.title }}
+                            {% endif %}
+                        </p>
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </section>
+
+    </section>
+
+    {% include "library/includes/pagination.html" %}
+
 {% endblock %}
