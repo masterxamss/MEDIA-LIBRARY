@@ -18,7 +18,8 @@
       <form method="post" action="{% url 'gest-games'%}">
         {% csrf_token %}
         <div class="search-block__title">
-          <label for="search_name">Recherche par Nom</label>
+          <h3 class="text-left w-100">Trier</h3>
+          <label class="text-left w-100" for="search_name">Recherche par Nom</label>
           <input type="text" name="search_name" placeholder="Nom" />
           <button class="btn btn-success btn-sm" type="submit">
             Recherche
@@ -42,6 +43,7 @@
 
       </form>
       <div>
+        {% if user.is_authenticated %}
         <a
           href="{% url 'home-library' %}"
           class="btn btn-primary btn-sm mt-3 mb-5"
@@ -56,6 +58,15 @@
         >
           Noveau
         </a>
+        {% else %}
+        <a
+          href="{% url 'index' %}"
+          class="btn btn-primary btn-sm mt-3 mb-5"
+          role="buttone"
+        >
+          Retourner
+        </a>
+        {% endif %}
       </div>
     </aside>
     <div class="result-games">

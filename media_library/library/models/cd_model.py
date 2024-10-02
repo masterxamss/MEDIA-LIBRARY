@@ -11,7 +11,7 @@ class Cd(Media):
 
 
     def __str__(self):
-        return f'{self.title} - {self.artist}'
+        return f'CD: {self.title}'
     
     def update_cd_available(cd_id):
         """

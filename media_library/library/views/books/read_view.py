@@ -77,6 +77,7 @@ class BooksView(ListView):
         context["return_all"] = 'checked' if self.request.POST.get('return_all') else ''
         context["return_availables"] = 'checked' if self.request.POST.get('return_availables') else ''
         context["return_unavailables"] = 'checked' if self.request.POST.get('return_unavailables') else ''
+        context["user"] = self.request.user
 
         return context
 
@@ -88,7 +89,7 @@ class BooksView(ListView):
         """
         return self.get(request, *args, **kwargs)
 
-class BookDetailView(LoginRequiredMixin, DetailView):
+class BookDetailView(DetailView):
     model = Book
     template_name = "library/gest_media.html"
     slug_field = 'slug'

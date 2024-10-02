@@ -2,19 +2,18 @@ from django.urls import path
 
 from library.views import (
     BooksView,
+    CdView,
+    DvdView,
+    BoardGamesView
 )
 
 from . import views
 
 urlpatterns = [
-    path("", views.home_member_view, name="index"),
-    #path("books/", views.MemberBooksView.as_view(), name="books"),
+    #path("", views.home_member_view, name="index"),
+    path("", views.MediaListView.as_view(), name="index"),
     path("books/", BooksView.as_view(), name="books"),
-    path("cds/", views.CdsView.as_view(), name="cds"),
-    path("dvds/", views.DvdsView.as_view(), name="dvds"),
-    path("board_games/", views.BoardGamesView.as_view(), name="board_games"),
-    path("book/<str:slug>/", views.MemberBookDetail, name="book_detail"),
-    path("cd/<str:slug>/", views.cd_detail, name="cd_detail"),
-    path("dvd/<str:slug>/", views.dvd_detail, name="dvd_detail"),
-    path("board_game/<str:slug>/", views.board_game_detail, name="game_detail"),
+    path("cds/", CdView.as_view(), name="cds"),
+    path("dvds/", DvdView.as_view(), name="dvds"),
+    path("board_games/", BoardGamesView.as_view(), name="board_games"),
 ]

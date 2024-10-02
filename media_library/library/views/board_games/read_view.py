@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 from library.models import BoardGame
 
 
-class BoardGamesView(LoginRequiredMixin,ListView):
+class BoardGamesView(ListView):
     template_name = "library/board_games/gest_board_games.html"
     model = BoardGame
     ordering = ["name"]
@@ -36,6 +36,7 @@ class BoardGamesView(LoginRequiredMixin,ListView):
         context["total"] = games.count()
         context["error"] = self.error
         context["return_all"] = 'checked' if self.request.POST.get('return_all') else ''
+        context["user"] = self.request.user
 
         return context
 
@@ -47,7 +48,7 @@ class BoardGamesView(LoginRequiredMixin,ListView):
         """
         return self.get(request, *args, **kwargs)
 
-class BoardGameDetailView(LoginRequiredMixin, DetailView):
+class BoardGameDetailView(DetailView):
     model = BoardGame
     template_name = "library/gest_media.html"
     slug_field = 'slug'

@@ -1,6 +1,6 @@
 <section class="d-flex flex-column justify-content-center w-75">
   <h1 class="text-center text-primary">{{ cd_detail.title }}</h1>
-
+  
   <div class="content">
     <div class="image-container">
       {% if cd_detail.image and cd_detail.image.url %}
@@ -47,6 +47,7 @@
     </div>
   </div>
   <div class="container-btn">
+    {% if user.is_authenticated %}
     <a
       href="{% url 'delete-cd' cd_detail.slug %}"
       class="btn btn-danger btn-sm mt-1"
@@ -57,6 +58,7 @@
       class="btn btn-warning btn-sm mt-1"
       >Editer</a
     >
+    {% endif %}
     <a
       href="{% url 'gest-cds' %}"
       class="btn btn-primary btn-sm mt-1"

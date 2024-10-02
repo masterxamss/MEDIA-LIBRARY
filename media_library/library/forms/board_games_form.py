@@ -10,7 +10,8 @@ class BoardGameForm(forms.ModelForm):
         exclude = ['slug']
         labels = {
             'name': 'Nom',
-            'creator': 'Créateur'
+            'creator': 'Créateur',
+            'description': 'Description'
         }
         error_messages = {
             'name': {
@@ -20,9 +21,13 @@ class BoardGameForm(forms.ModelForm):
             'creator': {
                 'required': 'Veuillez renseigner le créateur',
                 'max_length': 'Limite de caractères dépassée'
+            },
+            'description': {
+                'max_length': 'Limite de caractères dépassée'
             }
         }
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Nom du jeu', 'class': 'form-control'}),
-            'creator': forms.TextInput(attrs={'placeholder': 'Nom du créateur', 'class': 'form-control'})
+            'creator': forms.TextInput(attrs={'placeholder': 'Nom du créateur', 'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Description', 'class': 'form-control'})
         }

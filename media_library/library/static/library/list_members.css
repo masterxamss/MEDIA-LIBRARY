@@ -1,0 +1,22 @@
+#members{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.list-members{
+    display:flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 100%;
+}
+
+.search-block{
+    width: 20%;
+}
+
+.result-members{
+    width: 80%;
+}

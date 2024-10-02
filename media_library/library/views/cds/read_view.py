@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from library.models import Cd
 
-class CdView(LoginRequiredMixin,ListView):
+class CdView(ListView):
     template_name = "library/cds/gest_cds.html"
     model = Cd
     ordering = ["title"]
@@ -75,6 +75,7 @@ class CdView(LoginRequiredMixin,ListView):
         context["return_all"] = 'checked' if self.request.POST.get('return_all') else ''
         context["return_availables"] = 'checked' if self.request.POST.get('return_availables') else ''
         context["return_unavailables"] = 'checked' if self.request.POST.get('return_unavailables') else ''
+        context["user"] = self.request.user
 
         return context
 
@@ -87,7 +88,7 @@ class CdView(LoginRequiredMixin,ListView):
         return self.get(request, *args, **kwargs)
 
 
-class CdDetailView(LoginRequiredMixin, DetailView):
+class CdDetailView(DetailView):
     model = Cd
     template_name = "library/gest_media.html"
     slug_field = 'slug'

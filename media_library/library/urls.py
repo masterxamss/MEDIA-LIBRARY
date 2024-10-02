@@ -1,11 +1,11 @@
 from django.urls import path
 
-from library.views import CreateBookView, BooksView, BookDetailView, BookDeleteView, BookUpdateView
-from library.views import CreateMemberView, MembersView, MemberDeleteView, MemberUpdateView, MemberDetailView
-from library.views import ReservationCreateView, ReservationsView, ReservationDeleteView
-from library.views import CdView, CdDetailView, CreateCdView, CdUpdateView, CdDeleteView
-from library.views import DvdView, DvdDetailView, DvdCreateView, DvdUpdateView, DvdDeleteView
-from library.views import BoardGamesView, BoardGameDetailView, CreateBoardGameView, BoardGameDeleteView, BoardGameUpdateView
+from library.views.books import *
+from library.views.members import *
+from library.views.reservations import *
+from library.views.cds import *
+from library.views.dvds import *
+from library.views.board_games import *
 from library.views import LoginView, LogoutView
 from library.views import HomeView
 

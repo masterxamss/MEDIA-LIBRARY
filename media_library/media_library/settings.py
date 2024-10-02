@@ -160,10 +160,10 @@ LOGGING = {
             'class': 'logging.StreamHandler',
         },
         'file': {
-            'level': 'DEBUG',  # Define o nível mínimo de log a ser registrado no arquivo
+            'level': 'DEBUG', 
             'class': 'logging.FileHandler',
-            'filename': 'info.log',  # Nome do arquivo de log
-            'formatter': 'verbose',  # Formato do log que será usado para o arquivo
+            'filename': 'info.log',  
+            'formatter': 'verbose',  
         },
     },
     'loggers': {
@@ -172,8 +172,8 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
-        'library': {  # Logger específico para o seu app
-            'handlers': ['file', 'console'],  # Agora usa tanto o console quanto o arquivo
+        'library': {
+            'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': False,
         },
