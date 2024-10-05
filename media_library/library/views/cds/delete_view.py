@@ -1,6 +1,4 @@
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DeleteView
@@ -10,13 +8,13 @@ import logging
 
 logger = logging.getLogger('library')
 
+
 class CdDeleteView(LoginRequiredMixin, DeleteView):
     model = Cd
     template_name = 'library/cds/cd_confirm_delete.html'
     success_url = reverse_lazy('gest-cds')
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
-
 
     def post(self, request, *args, **kwargs):
         """
@@ -39,7 +37,8 @@ class CdDeleteView(LoginRequiredMixin, DeleteView):
         """
         self.object = self.get_object()
         try:
-            logger.info('User %s is attempting to delete CD ID: %s', self.request.user, self.object.id)
+            logger.info('User %s is attempting to delete CD ID: %s',
+                        self.request.user, self.object.id)
             logger.debug(f'Details cd before delete : {self.object}')
             response = self.delete(request, *args, **kwargs)
             logger.info('CD deleted successfully')
@@ -47,18 +46,3 @@ class CdDeleteView(LoginRequiredMixin, DeleteView):
         except Exception as e:
             logger.error('Error deleting CD: %s %s', object.id, str(e))
             return redirect('gest-cds')
-
-
-''' [FBV] - FUNCTION BASED VIEW '''
-# @login_required
-# def CdDeleteView(request, slug):
-#     cd = Cd.objects.get(slug=slug)
-
-#     if cd.method == 'POST':
-#         cd.delete()
-#         return redirect('gest-cds')
-
-#     context = {
-#         'cd': cd
-#     }
-#     return render(request, 'library/cds/cd_confirm_delete.html', context)

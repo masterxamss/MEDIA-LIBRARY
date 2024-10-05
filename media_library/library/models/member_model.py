@@ -12,11 +12,23 @@ class Member(models.Model):
     city = models.CharField(max_length=100, null=False)
 
     def get_full_name(self):
+        """
+        Returns the full name of a member.
+
+        Returns:
+            str: The full name of the member (first name and last name separated by a space).
+        """
         return f'{self.first_name} {self.last_name}'
 
     def __str__(self):
+        """
+        Returns the full name of the member.
+
+        Returns:
+            str: The full name of the member (first name and last name separated by a space).
+        """
         return f'{self.get_full_name()}'
-    
+
     def get_member_blocked(member_id):
         """
         Checks if a member is blocked.
@@ -27,5 +39,6 @@ class Member(models.Model):
         Returns:
             bool: True if the member is blocked, False otherwise.
         """
-        member_bloqued = Member.objects.filter(id=member_id, blocked=True).exists()
+        member_bloqued = Member.objects.filter(
+            id=member_id, blocked=True).exists()
         return member_bloqued

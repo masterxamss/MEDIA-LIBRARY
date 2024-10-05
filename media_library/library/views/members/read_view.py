@@ -4,7 +4,8 @@ from django.db.models import Q
 
 from library.models import Member
 
-class MembersView(LoginRequiredMixin,ListView):
+
+class MembersView(LoginRequiredMixin, ListView):
     template_name = "library/members/gest_members.html"
     model = Member
     ordering = ["last_name"]
@@ -17,7 +18,7 @@ class MembersView(LoginRequiredMixin,ListView):
 
         queryset = super().get_queryset()
 
-        search_name = self.request.POST.get('search_name','').strip()
+        search_name = self.request.POST.get('search_name', '').strip()
         return_blocked = self.request.POST.get('return_blocked')
 
         if search_name:
@@ -35,7 +36,6 @@ class MembersView(LoginRequiredMixin,ListView):
 
         return queryset
 
-
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
@@ -44,11 +44,12 @@ class MembersView(LoginRequiredMixin,ListView):
         context["total"] = members.count()
         context["total_blocked"] = members.filter(blocked=True).count()
         context["error"] = self.error
-        context["return_all"] = 'checked' if self.request.POST.get('return_all') else ''
-        context["return_blocked"] = 'checked' if self.request.POST.get('return_blocked') else ''
+        context["return_all"] = 'checked' if self.request.POST.get(
+            'return_all') else ''
+        context["return_blocked"] = 'checked' if self.request.POST.get(
+            'return_blocked') else ''
 
         return context
-
 
     def post(self, request, *args, **kwargs):
         """

@@ -23,5 +23,6 @@ class MemberUpdateView(LoginRequiredMixin, UpdateView):
             logger.debug('Member details: %s', form.cleaned_data)
             return super().form_valid(form)
         except Exception as e:
-            logger.warning('An error occurred while updating member: %s', str(e))
+            logger.warning(
+                'An error occurred while updating member: %s', str(e))
         return super().form_valid(form)

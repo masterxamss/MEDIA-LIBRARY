@@ -1,6 +1,3 @@
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
 from django.utils.text import slugify
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -42,32 +39,3 @@ class CreateBookView(LoginRequiredMixin, CreateView):
         except Exception as e:
             logger.exception('Error occurred while creating book: %s', str(e))
             return super().form_invalid(form)
-
-
-'''  FUNCTIONS BASED VIEWS '''
-# @login_required
-# def CreateBookView(request):
-#     """
-#     Create a new Book instance.
-
-#     GET:
-#     Returns a form to create a new Book instance.
-
-#     POST:
-#     Creates a new Book instance with the given data and returns a redirect to
-#     the list of books.
-#     """
-#     form = BookForm()
-
-#     if request.method == 'POST':
-#         form = BookForm(request.POST)
-#         if form.is_valid():
-#             book = form.save(commit=False)
-#             book.slug = slugify(book.title)
-#             book.save()
-#             return redirect('gest-books')
-
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'library/books/book_form.html', context)

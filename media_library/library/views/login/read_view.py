@@ -5,6 +5,7 @@ import logging
 
 logger = logging.getLogger('library')
 
+
 def LoginView(request):
     """
     Handles a GET or POST request to login a user.
@@ -73,4 +74,3 @@ def LogoutView(request):
             return redirect('login')
     except Exception as e:
         logger.exception('An error occurred while logging out: %s', str(e))
-

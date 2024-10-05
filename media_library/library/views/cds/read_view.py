@@ -1,9 +1,7 @@
-# from django.shortcuts import render, get_object_or_404
-# from django.contrib.auth.decorators import login_required
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from library.models import Cd
+
 
 class CdView(ListView):
     template_name = "library/cds/gest_cds.html"
@@ -30,9 +28,9 @@ class CdView(ListView):
             QuerySet: The filtered queryset of books.
         """
         queryset = super().get_queryset()
-        
+
         # Get POST parameters if any
-        search_title = self.request.POST.get('search_title','').strip()
+        search_title = self.request.POST.get('search_title', '').strip()
         return_availables = self.request.POST.get('return_availables')
         return_unavailables = self.request.POST.get('return_unavailables')
 
@@ -51,10 +49,10 @@ class CdView(ListView):
             queryset = queryset.filter(available=False)
             if queryset.count() == 0:
                 self.error = "Aucun CD n'est indisponible."
-                
+
         return queryset
 
-    def get_context_data(self, **kwargs):    
+    def get_context_data(self, **kwargs):
         """
         Adds additional context to the response.
 
@@ -65,16 +63,19 @@ class CdView(ListView):
             dict: The context as a dictionary.
         """
         context = super().get_context_data(**kwargs)
-        
+
         # Get total books count
         cds = Cd.objects.all()
         context["total"] = cds.count()
         context["total_availables"] = cds.filter(available=True).count()
         context["total_unavailables"] = cds.filter(available=False).count()
         context["error"] = self.error
-        context["return_all"] = 'checked' if self.request.POST.get('return_all') else ''
-        context["return_availables"] = 'checked' if self.request.POST.get('return_availables') else ''
-        context["return_unavailables"] = 'checked' if self.request.POST.get('return_unavailables') else ''
+        context["return_all"] = 'checked' if self.request.POST.get(
+            'return_all') else ''
+        context["return_availables"] = 'checked' if self.request.POST.get(
+            'return_availables') else ''
+        context["return_unavailables"] = 'checked' if self.request.POST.get(
+            'return_unavailables') else ''
         context["user"] = self.request.user
 
         return context
@@ -94,17 +95,3 @@ class CdDetailView(DetailView):
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
     context_object_name = 'cd_detail'
-
-# @login_required
-# def LibraryCdDetailView(request, slug):
-#     """
-#     Displays the details of a specific Cd, given its slug.
-
-#     :param request: The request object.
-#     :param slug: The slug of the Cd to be displayed.
-#     :return: A rendered template with the Cd's details.
-#     """
-#     identified_media = get_object_or_404(Cd, slug=slug)
-#     return render(request, "library/gest_media.html", {
-#         "cd_detail": identified_media
-#     })

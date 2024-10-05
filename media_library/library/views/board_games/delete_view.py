@@ -1,14 +1,14 @@
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DeleteView
 from library.models import BoardGame
+from django.shortcuts import redirect
+
 
 import logging
 
 logger = logging.getLogger('library')
+
 
 class BoardGameDeleteView(LoginRequiredMixin, DeleteView):
     model = BoardGame
@@ -39,7 +39,8 @@ class BoardGameDeleteView(LoginRequiredMixin, DeleteView):
         """
         self.object = self.get_object()
         try:
-            logger.info('User %s is attempting to delete BoardGame ID: %s', self.request.user, self.object.id)
+            logger.info('User %s is attempting to delete BoardGame ID: %s',
+                        self.request.user, self.object.id)
             logger.debug(f'Details board_game before delete : {self.object}')
             response = self.delete(request, *args, **kwargs)
             logger.info('BoardGame deleted successfully')
@@ -47,18 +48,3 @@ class BoardGameDeleteView(LoginRequiredMixin, DeleteView):
         except Exception as e:
             logger.error('Error deleting BoardGame: %s %s', object.id, str(e))
             return redirect('gest-games')
-
-
-''' [FBV] - FUNCTION BASED VIEW '''
-# @login_required
-# def BoardGameDeleteView(request, slug):
-#     board_game = BoardGame.objects.get(slug=slug)
-
-#     if board_game.method == 'POST':
-#         board_game.delete()
-#         return redirect('gest-games')
-
-#     context = {
-#         'board_game': board_game
-#     }
-#     return render(request, 'library/board_games/board_game_confirm_delete.html', context)

@@ -1,5 +1,3 @@
-# from django.shortcuts import render, get_object_or_404
-# from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
@@ -16,12 +14,21 @@ class BoardGamesView(ListView):
     error = None
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        
-        # Get POST parameters if any
-        search_name = self.request.POST.get('search_name','').strip()
+        """
+        Override the default queryset to apply filtering based on the POST request.
 
-        # Apply filters based on POST data
+        Retrieves the BoardGames from the database and applies the filters based on
+        the POST request. If the search_name field is not empty, filters the
+        BoardGames by the search_name field. If the search returns no results, sets
+        the error attribute of the view instance to the appropriate error message.
+
+        Returns:
+            QuerySet: The filtered queryset of BoardGames.
+        """
+        queryset = super().get_queryset()
+
+        search_name = self.request.POST.get('search_name', '').strip()
+
         if search_name:
             queryset = queryset.filter(name__icontains=search_name)
             if queryset.count() == 0:
@@ -29,13 +36,22 @@ class BoardGamesView(ListView):
 
         return queryset
 
-    def get_context_data(self, **kwargs):    
+    def get_context_data(self, **kwargs):
+        """
+        Adds additional context to the response.
+
+        Adds the error message if any, total board games, and the status of the filters and sorting options.
+
+        Returns:
+            dict: The context as a dictionary.
+        """
         context = super().get_context_data(**kwargs)
-        
+
         games = BoardGame.objects.all()
         context["total"] = games.count()
         context["error"] = self.error
-        context["return_all"] = 'checked' if self.request.POST.get('return_all') else ''
+        context["return_all"] = 'checked' if self.request.POST.get(
+            'return_all') else ''
         context["user"] = self.request.user
 
         return context
@@ -48,16 +64,10 @@ class BoardGamesView(ListView):
         """
         return self.get(request, *args, **kwargs)
 
+
 class BoardGameDetailView(DetailView):
     model = BoardGame
     template_name = "library/gest_media.html"
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
     context_object_name = 'game_detail'
-
-# @login_required
-# def LibraryBoardGamesDetailView(request, slug):
-#     identified_media = get_object_or_404(BoardGame, slug=slug)
-#     return render(request, "library/gest_media.html", {
-#         "game_detail": identified_media
-#     })

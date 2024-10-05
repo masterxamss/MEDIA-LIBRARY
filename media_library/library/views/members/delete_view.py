@@ -15,7 +15,6 @@ class MemberDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('gest-members')
     pk_url_kwarg = 'id'
 
-
     def post(self, request, *args, **kwargs):
         """
         Handles a POST request to delete a member.
@@ -37,7 +36,8 @@ class MemberDeleteView(LoginRequiredMixin, DeleteView):
         """
         self.object = self.get_object()
         try:
-            logger.info('User %s is attempting to delete member ID: %s', self.request.user, self.object.id)
+            logger.info('User %s is attempting to delete member ID: %s',
+                        self.request.user, self.object.id)
             logger.debug(f'Details member before delete : {self.object}')
 
             response = self.delete(request, *args, **kwargs)
@@ -47,5 +47,6 @@ class MemberDeleteView(LoginRequiredMixin, DeleteView):
             return response
 
         except Exception as e:
-            logger.error('An error occurred while deleting the member: %s', self.object.id, self.request.user, str(e))
+            logger.error('An error occurred while deleting the member: %s',
+                         self.object.id, self.request.user, str(e))
             raise

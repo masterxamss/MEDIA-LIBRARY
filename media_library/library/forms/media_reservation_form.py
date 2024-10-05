@@ -62,7 +62,6 @@ class MediaReservationsForm(forms.ModelForm):
         dvd = cleaned_data.get('dvd')
         cd = cleaned_data.get('cd')
         member = cleaned_data.get('member')
-        member_id = cleaned_data.get('member').id
 
         if not (book or dvd or cd):
             self.add_error(
@@ -80,6 +79,7 @@ class MediaReservationsForm(forms.ModelForm):
                 print('teste cd')
 
         if member:
+            member_id = member.id
             active_reservations = MediaReservations.get_active_reservations(
                 member_id)
             member_bloqued = Member.get_member_blocked(member_id)
