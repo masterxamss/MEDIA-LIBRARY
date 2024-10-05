@@ -17,4 +17,4 @@ __pycache__/
 *.log
 
 # Database files
-db.sqlite3
+
