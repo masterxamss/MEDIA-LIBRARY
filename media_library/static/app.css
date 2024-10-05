@@ -156,6 +156,12 @@ footer{
     gap:.5rem
 }
 
+.messages{
+    list-style: none;
+    color: Red;
+
+}
+
 
 
 

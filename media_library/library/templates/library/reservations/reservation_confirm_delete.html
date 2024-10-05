@@ -10,8 +10,8 @@
         <form method="POST">
             {% csrf_token %}
             <p>Êtes-vous sûr de vouloir supprimer cette réserve ?</p>
-            <button type="submit" class="btn btn-danger">Supprimer</button>
-            <a href="{% url 'gest-reservations' %}" class="btn btn-secondary">Annuler</a>
+            <button type="submit" class="btn btn-danger w-50">Supprimer</button>
+            <a href="{% url 'gest-reservations' %}" class="btn btn-secondary w-50">Annuler</a>
         </form>
     </section>
 {% endblock %}
