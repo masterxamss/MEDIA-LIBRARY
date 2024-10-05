@@ -37,3 +37,7 @@
   .jumbotron {
     width: 800px;
   }
+
+  .btn-block{
+    margin-top: .5rem;
+  }

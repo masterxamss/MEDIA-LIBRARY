@@ -1,6 +1,3 @@
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
 from django.utils.text import slugify
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -44,32 +41,3 @@ class DvdCreateView(LoginRequiredMixin, CreateView):
             logger.exception(
                 'An error occurred while creating dvd: %s', str(e))
             return super().form_invalid(form)
-
-
-'''  FUNCTIONS BASED VIEWS '''
-# @login_required
-# def CreateBookView(request):
-#     """
-#     Create a new Dvd instance.
-
-#     GET:
-#     Returns a form to create a new dvd instance.
-
-#     POST:
-#     Creates a new Dvd instance with the given data and returns a redirect to
-#     the list of dvds.
-#     """
-#     form = DvdForm()
-
-#     if request.method == 'POST':
-#         form = DvdForm(request.POST)
-#         if form.is_valid():
-#             dvd = form.save(commit=False)
-#             dvd.slug = slugify(dvd.title)
-#             dvd.save()
-#             return redirect('gest-dvds')
-
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'library/books/dvd_form.html', context)

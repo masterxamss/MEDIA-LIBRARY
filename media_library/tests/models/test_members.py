@@ -1,20 +1,12 @@
 import pytest
 from library.models import Member
 
-'''
-* Test the creation of a member in the database.
-
-* Creates a new Member object in the database using Member.objects.create().
-* Checks that all the fields in the member have been assigned correctly using assertions.
-* Each assert checks that the value of the field created corresponds to what is expected.
-
--------------------------------------------------------------------------------------------
-
-The decorator (@pytest.mark.django_db) ensures that the test has access to a temporary,
-clean database, which will be created and destroyed automatically
-by Django/pytest at the start and end of the test, respectively
-'''
 class TestMemberCreation:
+    '''
+    The decorator (@pytest.mark.django_db) ensures that the test has access to a temporary,
+    clean database, which will be created and destroyed automatically
+    by Django/pytest at the start and end of the test, respectively
+    '''
     @pytest.mark.django_db
     def test_member_creation(self):
         '''

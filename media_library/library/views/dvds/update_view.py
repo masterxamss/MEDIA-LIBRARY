@@ -1,6 +1,3 @@
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView
@@ -42,22 +39,3 @@ class DvdUpdateView(LoginRequiredMixin, UpdateView):
         except Exception as e:
             logger.warning('An error occurred while updating dvd: %s', str(e))
             return super().form_invalid(form)
-
-
-''' [FBV] - FUNCTION BASED VIEW '''
-# @login_required
-# def DvdUpdateView(request, slug):
-#     dvd = Dvd.objects.get(slug=slug)
-
-#     form = DvdForm(instance=dvd)
-
-#     if request.method == 'POST':
-#         form = DvdForm(request.POST, instance=dvd)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('gest-dvds') 
-
-#     context = {
-#         'form': form
-#     }
-#     return render(request, 'library/dvds/dvd_form.html', context)

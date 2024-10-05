@@ -1,6 +1,3 @@
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView
@@ -11,6 +8,7 @@ import logging
 
 logger = logging.getLogger('library')
 
+
 class BoardGameUpdateView(LoginRequiredMixin, UpdateView):
     model = BoardGame
     form_class = BoardGameForm
@@ -20,6 +18,19 @@ class BoardGameUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('gest-games')
 
     def form_valid(self, form):
+        """
+        Overrides the form_valid method of UpdateView to log the update of a
+        Board Game and the details of the updated Board Game.
+
+        Args:
+            form (BoardGameForm): The form containing the submitted data.
+
+        Returns:
+            HttpResponseRedirect: A redirect to the success URL.
+
+        Logs an info message with the user and Board Game details.
+        Logs an error message with the user and Board Game ID if an error occurs.
+        """
         try:
             logger.info('Update board game - USER: %s', self.request.user)
             logger.debug(
@@ -29,22 +40,3 @@ class BoardGameUpdateView(LoginRequiredMixin, UpdateView):
             logger.exception(
                 'An error occurred while updating board game: %s', str(e))
             return super().form_invalid(form)
-
-
-''' [FBV] - FUNCTION BASED VIEW '''
-# @login_required
-# def BoardGameUpdateView(request, slug):
-#     board_game = BoardGame.objects.get(slug=slug)
-
-#     form = BoardGameForm(instance=book)
-
-#     if request.method == 'POST':
-#         form = BoardGameForm(request.POST, instance=book)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('gest-games') 
-
-#     context = {
-#         'form': form
-#     }
-#     return render(request, 'library/board_games/board_game_form.html', context)

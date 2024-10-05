@@ -6,6 +6,7 @@ import logging
 
 logger = logging.getLogger('library')
 
+
 class ReservationDeleteView(LoginRequiredMixin, DeleteView):
     model = MediaReservations
     template_name = 'library/reservations/reservation_confirm_delete.html'
@@ -34,11 +35,13 @@ class ReservationDeleteView(LoginRequiredMixin, DeleteView):
         """
         self.object = self.get_object()
         try:
-            logger.info('User %s is attempting to delete reservation ID: %s', self.request.user, self.object.id)
+            logger.info('User %s is attempting to delete reservation ID: %s',
+                        self.request.user, self.object.id)
             logger.debug(f'Details reservation before delete : {self.object}')
             response = self.delete(request, *args, **kwargs)
             logger.info('Reservation deleted successfully')
             return response
         except Exception as e:
-            logger.exception('An error occurred while deleting reservation: %s', self.object.id, self.request.user, str(e))
+            logger.exception('An error occurred while deleting reservation: %s',
+                             self.object.id, self.request.user, str(e))
             raise

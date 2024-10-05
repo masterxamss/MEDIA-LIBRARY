@@ -39,4 +39,4 @@ class TestCd:
             artist="Jimi Hendrix",
         )
 
-        assert str(cd) == "Electric Ladyland - Jimi Hendrix"
+        assert str(cd) == "CD: Electric Ladyland"

@@ -38,4 +38,4 @@ class TestDvd:
             director="Charles Chaplin"
         )
 
-        assert dvd.__str__() == "A Dog's Life - Charles Chaplin"
+        assert dvd.__str__() == "DVD: A Dog's Life"

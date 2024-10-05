@@ -55,4 +55,4 @@ class TestBook():
             image=""
         )
 
-        assert str(book) == "Lord of the Rings - J. R. R. Tolkien"
+        assert str(book) == "LIVRE: Lord of the Rings"

@@ -11,7 +11,7 @@
 
 {% block content %}
     <section class="book-form">
-        <h1 class="text-center">Créer un nouveau livre</h1>
+        <h1 class="text-center">Livres</h1>
         {% if form.errors %}
         <div id="alert">
           <h2>L'enregistrement du livre a échoué</h2>
@@ -27,9 +27,9 @@
                     {{ form_field.errors }}
                 </div>
             {% endfor %}
-            <button class="btn btn-success btn-block" type="submit">Enregistrer le livre</button>
-            <input class="btn btn-primary btn-block" type="reset" value="Reset">
+            <button class="btn btn-success btn-block" type="submit">Enregistrer</button>
+            <input class="btn btn-info btn-block" type="reset" value="Réinitialiser">
+            <a href="{% url 'gest-books' %}" class="btn btn-dark btn-sm mt-1" role="buttone">Retourner</a>
         </form>
-        <a href="{% url 'gest-books' %}" class="btn btn-primary btn-lg mt-1" role="buttone">Retourner</a>
     </section>
 {% endblock %}

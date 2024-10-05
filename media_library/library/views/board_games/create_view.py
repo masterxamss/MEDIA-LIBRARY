@@ -1,6 +1,3 @@
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
 from django.utils.text import slugify
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,6 +17,19 @@ class CreateBoardGameView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('gest-games')
 
     def form_valid(self, form):
+        """
+        Overrides the form_valid method of CreateView to log the creation of a
+        new board game and the details of the new board game.
+
+        Args:
+            form (BoardGameForm): The form containing the submitted data.
+
+        Returns:
+            HttpResponseRedirect: A redirect to the success URL.
+
+        Logs an info message with the user and board game details.
+        Logs an error message with the user and board game ID if an error occurs.
+        """
         try:
             logger.info('Create board game - USER: %s', self.request.user)
             board_game = form.save(commit=False)
@@ -30,34 +40,5 @@ class CreateBoardGameView(LoginRequiredMixin, CreateView):
             return super().form_valid(form)
         except Exception as e:
             logger.exception(
-				'An error occurred while creating board game: %s', str(e))
+                'An error occurred while creating board game: %s', str(e))
             return super().form_invalid(form)
-
-
-'''  FUNCTIONS BASED VIEWS '''
-# @login_required
-# def CreateBoardGameView(request):
-#     """
-#     Create a new BoardGame instance.
-
-#     GET:
-#     Returns a form to create a new BoardGame instance.
-
-#     POST:
-#     Creates a new BoardGame instance with the given data and returns a redirect to
-#     the list of board_games.
-#     """
-#     form = BoardGameForm()
-
-#     if request.method == 'POST':
-#         form = BoardGameForm(request.POST)
-#         if form.is_valid():
-#             board_game = form.save(commit=False)
-#             board_game.slug = slugify(board_game.name)
-#             board_game.save()
-#             return redirect('gest-games')
-
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'library/board_games/board_game_form.html', context)

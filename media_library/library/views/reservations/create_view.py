@@ -1,12 +1,14 @@
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
-import logging
-
 from library.models import MediaReservations
 from library.forms import MediaReservationsForm
 
+
+import logging
+
 logger = logging.getLogger('library')
+
 
 class ReservationCreateView(LoginRequiredMixin, CreateView):
 
@@ -14,7 +16,6 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
     form_class = MediaReservationsForm
     template_name = 'library/reservations/reservation_form.html'
     success_url = reverse_lazy('gest-reservations')
-
 
     def form_valid(self, form):
         """
@@ -32,8 +33,10 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
         """
         try:
             logger.info("Create reservation - USER: %s", self.request.user)
-            logger.debug(f'Reservation created successfully: {form.cleaned_data}')
+            logger.debug(
+                f'Reservation created successfully: {form.cleaned_data}')
             return super().form_valid(form)
         except Exception as e:
-            logger.exception('Error occurred while creating reservation: %s', str(e))
+            logger.exception(
+                'Error occurred while creating reservation: %s', str(e))
             return super().form_invalid(form)

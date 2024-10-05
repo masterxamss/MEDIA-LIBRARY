@@ -1,6 +1,4 @@
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DeleteView
@@ -39,7 +37,8 @@ class BookDeleteView(LoginRequiredMixin, DeleteView):
         """
         self.object = self.get_object()
         try:
-            logger.info('User %s is attempting to delete Book ID: %s', self.request.user, self.object.id)
+            logger.info('User %s is attempting to delete Book ID: %s',
+                        self.request.user, self.object.id)
             logger.debug(f'Details Book before delete : {self.object}')
             response = self.delete(request, *args, **kwargs)
             logger.info('Book deleted successfully')
@@ -47,18 +46,3 @@ class BookDeleteView(LoginRequiredMixin, DeleteView):
         except Exception as e:
             logger.error('Error deleting Book: %s %s', self.object.id, str(e))
             return redirect('gest-books')
-
-
-''' [FBV] - FUNCTION BASED VIEW '''
-# @login_required
-# def BookDeleteView(request, slug):
-#     book = Book.objects.get(slug=slug)
-
-#     if book.method == 'POST':
-#         book.delete()
-#         return redirect('gest-books')
-
-#     context = {
-#         'book': book
-#     }
-#     return render(request, 'library/books/book_confirm_delete.html', context)

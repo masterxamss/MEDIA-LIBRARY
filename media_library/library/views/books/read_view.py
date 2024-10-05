@@ -1,6 +1,3 @@
-from django.shortcuts import render, get_object_or_404
-#from django.contrib.auth.decorators import login_required
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from library.models import Book
@@ -31,9 +28,9 @@ class BooksView(ListView):
             QuerySet: The filtered queryset of books.
         """
         queryset = super().get_queryset()
-        
+
         # Get POST parameters if any
-        search_title = self.request.POST.get('search_title','').strip()
+        search_title = self.request.POST.get('search_title', '').strip()
         return_availables = self.request.POST.get('return_availables')
         return_unavailables = self.request.POST.get('return_unavailables')
 
@@ -52,11 +49,10 @@ class BooksView(ListView):
             queryset = queryset.filter(available=False)
             if queryset.count() == 0:
                 self.error = "Aucun livre n'est indisponible."
-                
 
         return queryset
 
-    def get_context_data(self, **kwargs):    
+    def get_context_data(self, **kwargs):
         """
         Adds additional context to the response.
 
@@ -67,16 +63,19 @@ class BooksView(ListView):
             dict: The context as a dictionary.
         """
         context = super().get_context_data(**kwargs)
-        
+
         # Get total books count
         books = Book.objects.all()
         context["total"] = books.count()
         context["total_availables"] = books.filter(available=True).count()
         context["total_unavailables"] = books.filter(available=False).count()
         context["error"] = self.error
-        context["return_all"] = 'checked' if self.request.POST.get('return_all') else ''
-        context["return_availables"] = 'checked' if self.request.POST.get('return_availables') else ''
-        context["return_unavailables"] = 'checked' if self.request.POST.get('return_unavailables') else ''
+        context["return_all"] = 'checked' if self.request.POST.get(
+            'return_all') else ''
+        context["return_availables"] = 'checked' if self.request.POST.get(
+            'return_availables') else ''
+        context["return_unavailables"] = 'checked' if self.request.POST.get(
+            'return_unavailables') else ''
         context["user"] = self.request.user
 
         return context
@@ -89,26 +88,10 @@ class BooksView(ListView):
         """
         return self.get(request, *args, **kwargs)
 
+
 class BookDetailView(DetailView):
     model = Book
     template_name = "library/gest_media.html"
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
     context_object_name = 'book_detail'
-
-
-''' [FBV] - FUNCTIONS BASED VIEWs '''
-# @login_required
-# def LibraryBooksView(request):
-#     books = Book.objects.all()
-#     context = {
-#         'books': books
-#     }
-#     return render(request, 'library/books/gest_books.html', context)
-
-# @login_required
-# def LibraryBookDetailView(request, slug):
-#     identified_media = get_object_or_404(Book, slug=slug)
-#     return render(request, "library/gest_media.html", {
-#         "book_detail": identified_media
-#     })

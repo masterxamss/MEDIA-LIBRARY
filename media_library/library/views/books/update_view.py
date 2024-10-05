@@ -1,6 +1,3 @@
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView
@@ -10,6 +7,7 @@ from library.forms import BookForm
 import logging
 
 logger = logging.getLogger('library')
+
 
 class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
@@ -38,24 +36,6 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
             logger.debug(f'Book updated successfully: {form.cleaned_data}')
             return super().form_valid(form)
         except Exception as e:
-            logger.exception('An error occurred while updating Book: %s', str(e))
+            logger.exception(
+                'An error occurred while updating Book: %s', str(e))
             return super().form_invalid(form)
-
-
-''' [FBV] - FUNCTION BASED VIEW '''
-# @login_required
-# def BookUpdateView(request, slug):
-#     book = Book.objects.get(slug=slug)
-
-#     form = BookForm(instance=book)
-
-#     if request.method == 'POST':
-#         form = BookForm(request.POST, instance=book)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('gest-books') 
-
-#     context = {
-#         'form': form
-#     }
-#     return render(request, 'library/books/book_form.html', context)

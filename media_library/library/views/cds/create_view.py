@@ -1,6 +1,3 @@
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
 from django.utils.text import slugify
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -21,6 +18,19 @@ class CreateCdView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('gest-cds')
 
     def form_valid(self, form):
+        """
+        Overrides the form_valid method of CreateView to log the creation of a
+        new CD and the details of the new CD.
+
+        Args:
+            form (CdForm): The form containing the submitted data.
+
+        Returns:
+            HttpResponseRedirect: A redirect to the success URL.
+
+        Logs an info message with the user and CD details.
+        Logs an error message with the user and CD ID if an error occurs.
+        """
         try:
             logger.info('Create CD - USER: %s', self.request.user)
             cd = form.save(commit=False)
@@ -31,32 +41,3 @@ class CreateCdView(LoginRequiredMixin, CreateView):
         except Exception as e:
             logger.exception('An error occurred while creating CD: %s', str(e))
             return super().form_invalid(form)
-
-
-'''  FUNCTIONS BASED VIEWS '''
-# @login_required
-# def CreateCdView(request):
-#     """
-#     Create a new Cd instance.
-
-#     GET:
-#     Returns a form to create a new Cd instance.
-
-#     POST:
-#     Creates a new Cd instance with the given data and returns a redirect to
-#     the list of Cds.
-#     """
-#     form = CdForm()
-
-#     if request.method == 'POST':
-#         form = CdForm(request.POST)
-#         if form.is_valid():
-#             cd = form.save(commit=False)
-#             cd.slug = slugify(book.title)
-#             cd.save()
-#             return redirect('gest-cds')
-
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'library/cds/cd_form.html', context)

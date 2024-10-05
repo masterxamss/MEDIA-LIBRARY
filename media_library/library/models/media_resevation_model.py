@@ -6,6 +6,7 @@ from library.models.dvd_model import Dvd
 from library.models.cd_model import Cd
 from library.models.member_model import Member
 
+
 class MediaReservations(models.Model):
     member = models.ForeignKey(
         Member, on_delete=models.CASCADE, related_name='loans', null=False)
@@ -16,13 +17,13 @@ class MediaReservations(models.Model):
     cd = models.ForeignKey(Cd, on_delete=models.CASCADE,
                            related_name='cd_loans', null=True, blank=True)
     date_requested = models.DateField(default=date.today, null=False)
-    date_due = models.DateField(default= date.today() + timezone.timedelta(days=7))
+    date_due = models.DateField(
+        default=date.today() + timezone.timedelta(days=7))
     returned = models.BooleanField(default=False)
     date_returned = models.DateField(null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Media Reservations"
-
 
     def get_media_items(self):
         """
@@ -37,7 +38,6 @@ class MediaReservations(models.Model):
         if self.cd:
             media_items.append(self.cd)
         return media_items
-    
 
     def return_item(self):
         """
@@ -50,15 +50,14 @@ class MediaReservations(models.Model):
             self.date_returned = date.today()
             self.save()
 
-
     def __str__(self):
         """
         Displays the title of the book, DVD or CD, depending on which one is filled in, 
         followed by the name of the member.
         """
-        media_title = 'Livre: ' + self.book.title if self.book else 'Dvd: ' + self.dvd.title if self.dvd else 'Cd: ' + self.cd.title
+        media_title = 'Livre: ' + self.book.title if self.book else 'Dvd: ' + \
+            self.dvd.title if self.dvd else 'Cd: ' + self.cd.title
         return f'{media_title} - Membre: {self.member.first_name} {self.member.last_name}'
-    
 
     def get_active_reservations(member_id):
         """
@@ -68,5 +67,6 @@ class MediaReservations(models.Model):
         Returns:
             int: The number of active reservations for the given member.
         """
-        active_reservations = MediaReservations.objects.filter(member_id=member_id, returned=False).count()
+        active_reservations = MediaReservations.objects.filter(
+            member_id=member_id, returned=False).count()
         return active_reservations
