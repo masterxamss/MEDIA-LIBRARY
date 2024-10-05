@@ -33,8 +33,8 @@
                 </div>
             {% endfor %}
             <button class="btn btn-success btn-block" type="submit">Enregistrer</button>
-            <input class="btn btn-primary btn-block" type="reset" value="Reset">
+            <input class="btn btn-info btn-block" type="reset" value="Réinitialiser">
+            <a href="{% url 'gest-reservations' %}" class="btn btn-dark btn-sm mt-1" role="buttone">Retourner</a>
         </form>
-        <a href="{% url 'gest-reservations' %}" class="btn btn-primary btn-lg mt-1" role="buttone">Retourner</a>
     </section>
 {% endblock %}

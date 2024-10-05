@@ -2,7 +2,8 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DeleteView
-from library.models import Book
+from library.models import Book, MediaReservations
+from django.contrib import messages
 
 import logging
 
@@ -40,6 +41,15 @@ class BookDeleteView(LoginRequiredMixin, DeleteView):
             logger.info('User %s is attempting to delete Book ID: %s',
                         self.request.user, self.object.id)
             logger.debug(f'Details Book before delete : {self.object}')
+
+            active_reservations = MediaReservations.objects.filter(book=self.object, returned=False)
+
+            if active_reservations.exists():
+                logger.error('Error deleting Book %s: The Book is present in one or more reservations.',
+                            self.object.id)
+                messages.error(request, "Ce Livre ne peut pas être annulé. Il y a des emprunts qui n'ont pas encore été retournés.")
+                return self.render_to_response(self.get_context_data())
+            
             response = self.delete(request, *args, **kwargs)
             logger.info('Book deleted successfully')
             return response
