@@ -19,7 +19,7 @@ Python@3.10.12
 From your command line, first clone the project:
 ```
 # Clone the repository
-$ git clone git@github.com:masterxamss/media-library.git
+$ git clone https://github.com/masterxamss/media-library.git
 
 # Move into the repository
 $ cd media-library
