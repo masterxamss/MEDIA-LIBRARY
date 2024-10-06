@@ -8,6 +8,8 @@
 
 ## Getting Started 🚀
 These instructions will lead you to make a copy on your machine
+
+At the root of this project you can find the Mediateque.pdf file, the application report
 ### Prerequisites 📝
 ```
 git@2.34.1 or higher
