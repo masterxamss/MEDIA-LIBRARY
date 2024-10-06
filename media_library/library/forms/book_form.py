@@ -7,7 +7,7 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = '__all__'
         exclude = ['slug', 'available']
-        book_image = forms.ImageField()
+        #book_image = forms.ImageField()
         labels = {
             'title': 'Titre',
             'author': 'Auteur',
@@ -15,7 +15,8 @@ class BookForm(forms.ModelForm):
             'language': 'Langue',
             'release_date': 'Date de sortie',
             'publisher': 'Editeur',
-            'description': 'Description'
+            'description': 'Description',
+            'image': 'Image' 
         }
         error_messages = {
             'title': {
@@ -43,6 +44,10 @@ class BookForm(forms.ModelForm):
             },
             'description': {
                 'max_length': 'Limite de caractères dépassée'
+            },
+            'image': {
+                'filename': 'Veuillez insérer une image valide',
+                'error_type': 'format non valide',
             }
 
         }
@@ -53,5 +58,6 @@ class BookForm(forms.ModelForm):
             'language': forms.TextInput(attrs={'placeholder': 'Langue du livre', 'class': 'form-control'}),
             'release_date': forms.DateInput(attrs={'placeholder': 'Date de sortie', 'class': 'form-control', 'type': 'date'}),
             'publisher': forms.TextInput(attrs={'placeholder': 'Editeur du livre', 'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'placeholder': 'Description du livre', 'class': 'form-control'})
+            'description': forms.Textarea(attrs={'placeholder': 'Description du livre', 'class': 'form-control'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'})
         }
