@@ -6,7 +6,6 @@ class CdForm(forms.ModelForm):
     class Meta:
         model = Cd
         fields = '__all__'
-        book_image = forms.ImageField()
         exclude = ['slug', 'available']
         labels = {
             'title': 'Titre',
@@ -15,7 +14,8 @@ class CdForm(forms.ModelForm):
             'album': 'Album',
             'year': 'Année',
             'genre': 'Genre',
-            'description': 'Description'
+            'description': 'Description',
+            'image': 'Image'
         }
         error_messages = {
             'title': {
@@ -39,6 +39,10 @@ class CdForm(forms.ModelForm):
             },
             'description': {
                 'max_length': 'Limite de caractères dépassée'
+            },
+            'image': {
+                'filename': 'Veuillez insérer une image valide',
+                'error_type': 'format non valide',
             }
         }
         widgets = {
@@ -47,5 +51,6 @@ class CdForm(forms.ModelForm):
             'album': forms.TextInput(attrs={'placeholder': 'Album du CD', 'class': 'form-control'}),
             'year': forms.NumberInput(attrs={'placeholder': 'Année du CD', 'class': 'form-control'}),
             'genre': forms.TextInput(attrs={'placeholder': 'Genre du CD', 'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'placeholder': 'Description du CD', 'class': 'form-control'})
+            'description': forms.Textarea(attrs={'placeholder': 'Description du CD', 'class': 'form-control'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'})
         }

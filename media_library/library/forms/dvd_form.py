@@ -6,7 +6,6 @@ class DvdForm(forms.ModelForm):
     class Meta:
         model = Dvd
         fields = '__all__'
-        book_image = forms.ImageField()
         exclude = ['slug', 'available']
         labels = {
             'title': 'Titre',
@@ -16,7 +15,8 @@ class DvdForm(forms.ModelForm):
             'writer': 'Réalisateur',
             'rating': 'Note',
             'category': 'Categorie',
-            'description': 'Description'
+            'description': 'Description',
+            'image': 'Image'
         }
         error_messages = {
             'title': {
@@ -46,6 +46,10 @@ class DvdForm(forms.ModelForm):
             'description': {
                 'required': 'Veuillez renseigner la description',
                 'max_length': 'Limite de caractères dépassée',
+            },
+            'image': {
+                'filename': 'Veuillez insérer une image valide',
+                'error_type': 'format non valide',
             }
         }
         widgets = {
@@ -57,4 +61,5 @@ class DvdForm(forms.ModelForm):
             'rating': forms.NumberInput(attrs={'placeholder': 'Note', 'class': 'form-control'}),
             'category': forms.TextInput(attrs={'placeholder': 'Categorie', 'class': 'form-control'}),
             'description': forms.Textarea(attrs={'placeholder': 'Description', 'class': 'form-control'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'})
         }
