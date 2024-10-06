@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Member(models.Model):
@@ -42,3 +43,4 @@ class Member(models.Model):
         member_bloqued = Member.objects.filter(
             id=member_id, blocked=True).exists()
         return member_bloqued
+    
