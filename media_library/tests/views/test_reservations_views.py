@@ -231,3 +231,19 @@ class TestMediaReservationsViews:
         
         # Check that the reservation has been deleted
         assert not MediaReservations.objects.filter(id=reservations.id).exists()
+
+
+    def test_member_blocked_for_late_return(self, client, authenticated_client, reservations, member):
+        """
+        Tests whether a member is blocked if a reservation is more than 7 days overdue.
+        """
+        reservations.date_due = date.today() - timedelta(days=8)
+        reservations.save()
+
+        url = reverse('gest-reservations')
+        response = client.get(url)
+        
+        member.refresh_from_db()
+        
+        assert response.status_code == 200
+        assert member.blocked is True

@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils import timezone
 from datetime import date
-from library.models.book_model import Book
-from library.models.dvd_model import Dvd
-from library.models.cd_model import Cd
-from library.models.member_model import Member
+from library.models import Book
+from library.models import Dvd
+from library.models import Cd
+from library.models import Member
 
 
 class MediaReservations(models.Model):
@@ -70,3 +70,17 @@ class MediaReservations(models.Model):
         active_reservations = MediaReservations.objects.filter(
             member_id=member_id, returned=False).count()
         return active_reservations
+    
+    def is_late(self):
+        """
+        Checks if the reservation is late by more than 7 days.
+        
+        If the reservation is not returned and the current date is more than 7 days
+        past the due date, sets the member's blocked attribute to True and saves the
+        member. Returns True if the reservation is late and False otherwise.
+        """
+        if not self.returned and (timezone.now().date() - self.date_due).days > 7:
+            self.member.blocked = True
+            self.member.save()
+            return True
+        return False

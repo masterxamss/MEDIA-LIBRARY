@@ -73,6 +73,24 @@ class ReservationsView(LoginRequiredMixin, ListView):
             queryset = queryset.order_by('-date_requested')
 
         return queryset
+    
+
+    def get(self, request, *args, **kwargs):
+        """
+        Handles a GET request to display the list of reservations.
+
+        Retrieves all the reservations that are not returned from the database.
+        For each reservation, checks if it is late and if so, sets the error
+        message of the view.
+        """
+        reservations = MediaReservations.objects.filter(returned=False)
+
+        for reservation in reservations:
+            if reservation.is_late():
+                self.error = f'Le membre {reservation.member.get_full_name()} a été bloqué pour un retour tardif.'
+
+        return super().get(request, *args, **kwargs)
+
 
     def post(self, request, *args, **kwargs):
         """
