@@ -46,6 +46,13 @@ python3 manage.py runserver - Unix/macOS
 python manage.py runserver - Windows
 
 ```
+```
+# Access credentials for the SUPER USER to access the database management interface
+
+http://127.0.0.1:8000/admin/
+Username : Admin
+Passsword : 3#__45aPgG*89
+```
 
 <div align="center">
 
