@@ -86,8 +86,7 @@ class ReservationsView(LoginRequiredMixin, ListView):
         reservations = MediaReservations.objects.filter(returned=False)
 
         for reservation in reservations:
-            if reservation.is_late():
-                self.error = f'Le membre {reservation.member.get_full_name()} a été bloqué pour un retour tardif.'
+            reservation.is_late()
 
         return super().get(request, *args, **kwargs)
 
