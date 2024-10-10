@@ -31,6 +31,12 @@ After that, you can install the virtual environment.
 ```
 python3 -m venv .venv - Unix/macOS
 py -m venv .venv – windows
+
+
+#Activate a virtual environment
+
+source .venv/bin/activate - Unix/macOS
+.venv\Scripts\activate - windows 
 ```
 Install the dependencies either using PIP.
 ```
