@@ -1,0 +1,103 @@
+[
+    {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+    "username": "admin",
+    "password": "pbkdf2_sha256$216000$...hashed_password...",
+    "is_superuser": true,
+    "is_staff": true
+    }
+    },
+    {
+    "model": "library.book",
+    "pk": 1,
+    "fields": {
+    "title": "Le Seigneur des Anneauxs",
+    "author": "J.R.R. Tolkien",
+    "pages": 1200,
+    "language": "Français",
+    "release_date": "1954-07-29",
+    "publisher": "Gallimard",
+    "available": true,
+    "slug": "le-seigneur-des-anneauxs",
+    "description": "Un classique de la littérature fantasy."
+    }
+    },
+    {
+    "model": "library.cd",
+    "pk": 1,
+    "fields": {
+    "title": "Abbey Road",
+    "artist": "The Beatles",
+    "album": "Abbey Road",
+    "year": 1969,
+    "genre": "Rock",
+    "available": true,
+    "slug": "abbey-road",
+    "description": "Un album légendaire du groupe The Beatles."
+    }
+    },
+    {
+    "model": "library.dvd",
+    "pk": 1,
+    "fields": {
+    "title": "Inception",
+    "director": "Christopher Nolan",
+    "writer": "Jonathan Nolan",
+    "year": 2010,
+    "rating": 5,
+    "category": "Science-Fiction",
+    "available": true,
+    "slug": "inception",
+    "description": "Un film de science-fiction réalisé par Christopher Nolan."
+    }
+    },
+    {
+    "model": "library.member",
+    "pk": 1,
+    "fields": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "1234567890",
+    "street": "123 Rue de Paris",
+    "postal_code": "75001",
+    "city": "Paris",
+    "blocked": false
+    }
+    },
+    {
+    "model": "library.mediareservations",
+    "pk": 1,
+    "fields": {
+    "member": 1,
+    "book": 1,
+    "date_requested": "2024-01-01",
+    "date_due": "2024-01-08",
+    "returned": false
+    }
+    },
+    {
+    "model": "library.mediareservations",
+    "pk": 2,
+    "fields": {
+    "member": 1,
+    "cd": 1,
+    "date_requested": "2024-01-01",
+    "date_due": "2024-01-08",
+    "returned": false
+    }
+    },
+    {
+    "model": "library.mediareservations",
+    "pk": 3,
+    "fields": {
+    "member": 1,
+    "dvd": 1,
+    "date_requested": "2024-01-01",
+    "date_due": "2024-01-08",
+    "returned": false
+    }
+    }
+]
