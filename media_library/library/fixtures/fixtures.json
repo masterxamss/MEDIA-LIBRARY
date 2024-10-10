@@ -3,8 +3,8 @@
     "model": "auth.user",
     "pk": 1,
     "fields": {
-    "username": "admin",
-    "password": "pbkdf2_sha256$216000$...hashed_password...",
+    "username": "user_teste",
+    "password": "123456789",
     "is_superuser": true,
     "is_staff": true
     }
