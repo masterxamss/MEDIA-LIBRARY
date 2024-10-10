@@ -10,6 +10,11 @@
 These instructions will lead you to make a copy on your machine
 
 At the root of this project you can find the Mediateque.pdf file, the application report
+
+The database contains test data and no migration is necessary.
+
+I would stress the importance of installing the project's dependencies from the requirements.txt file.
+
 ### Prerequisites 📝
 ```
 git@2.34.1 or higher
